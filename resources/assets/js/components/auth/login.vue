@@ -9,18 +9,22 @@
     </el-form-item>
     <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
     <el-form-item style="width:100%;">
-      <el-button type="primary" style="width:100%;" @click="submitForm('form')" :loading="logining">登录</el-button>
+      <el-button type="primary" style="width:100%;" @click="submitForm('form')" :loading="loading">登录</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script>
+	import * as _ from '../../utils/tool'
+	import api from '../../utils/http'
+	import { mapActions } from 'vuex'
+	import { mapGetters } from 'vuex'
   export default {
     data() {
       return {
-        logining: false,
+        loading: false,
         form: {
-          email: 'admin',
+          email: '709344897@qq.com',
           password: '123123'
         },
         rules: {
@@ -34,39 +38,32 @@
         checked: true
       };
     },
+    beforeRouteEnter (to, from, next) {
+    	next((vm) => {
+        if(vm.loginStatus) {
+          vm.$router.push('/')
+        }
+      })
+	  },
+	  computed: {
+			...mapGetters([
+	      'loginStatus'
+			])
+		},
     methods: {
+    	...mapActions([
+      'setUserInfo' 
+    	]),
    		submitForm(formName) {
-   			var _axios = axios;
    			var _form = this.form;
+      	this.loading = true;
 	        this.$refs[formName].validate((valid) => {
 	          if (valid) {
-	          	// this.logining = true;
-	            // 登录
-	            _axios.post('/login',_form)
-		        .then(response => {
-		          console.log(response.status);
-		          
-		        }).catch(error => {
-		        	var message = '';
-		        	if (error.response.status == 422) {
-		        		var dataError = error.response.data;
-		        		for(var x in dataError){
-		        			message += dataError[x];
-		        		}
-		        	}else{
-			        	message = error.message;
-		        		
-		        	}
-		            this.$message({
-			        	showClose: true,
-			        	message: message,
-			        	type: 'error'
-			        });
-		        });
-	          } else {
-	            console.log('error submit!!');
-	            return false;
-		        this.$router.push({ path: '/table' });
+		          api.Login(_form).then(response => {
+		          	this.setUserInfo(response);
+		          	this.$router.replace('/')
+		          });
+	          	this.loading = false;
 	          }
 	        });
       	},
@@ -74,18 +71,22 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+	html,body{
+		width: 100%;
+		background-color: #16a085;
+	}
 	.login-container {
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
-	-moz-border-radius: 5px;
-	background-clip: padding-box;
-	margin-bottom: 20px;
-	background-color: #F9FAFC;
-	margin: 180px auto;
-	border: 2px solid #8492A6;
-	width: 350px;
-	padding: 35px 35px 15px 35px;
+		-webkit-border-radius: 5px;
+		border-radius: 5px;
+		-moz-border-radius: 5px;
+		background-clip: padding-box;
+		margin-bottom: 20px;
+		background-color: #F9FAFC;
+		margin: 180px auto;
+		border: 2px solid #20A0FF;
+		width: 350px;
+		padding: 35px;
 		.title {
 		  margin: 0px auto 40px auto;
 		  text-align: center;
