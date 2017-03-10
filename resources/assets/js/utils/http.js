@@ -56,15 +56,15 @@ export function getFetch(url, params) {
 }
 
 export default {
-    /**
-     * 用户登录
-     */
+    // 用户登录
     Login(params) {
         return postFetch('/login', params)
     },
+    // 退出登录
     Logout(){
         return postFetch('/logout')
     },
+    // 权限列表
     PermissionList(params){
         return getFetch('/api/admin/permission',params)
     }

@@ -51666,15 +51666,17 @@ function getFetch(url, params) {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = {
-    /**
-     * 用户登录
-     */
+    // 用户登录
     Login: function Login(params) {
         return postFetch('/login', params);
     },
+
+    // 退出登录
     Logout: function Logout() {
         return postFetch('/logout');
     },
+
+    // 权限列表
     PermissionList: function PermissionList(params) {
         return getFetch('/api/admin/permission', params);
     }
