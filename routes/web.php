@@ -12,4 +12,4 @@
 */
 Auth::routes();
 
-Route::get('/', 'HomeController@index');
+Route::any('/{all}', 'HomeController@index')->where(['all' => '.*']);

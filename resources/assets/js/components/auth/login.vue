@@ -41,7 +41,7 @@
     beforeRouteEnter (to, from, next) {
     	next((vm) => {
         if(vm.loginStatus) {
-          vm.$router.push('/')
+          vm.$router.push('/admin')
         }
       })
 	  },

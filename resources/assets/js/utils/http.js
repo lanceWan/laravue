@@ -36,12 +36,37 @@ export function postFetch(url, params) {
     })
 }
 
+export function getFetch(url, params) {
+    return new Promise((resolve, reject) => {
+        axios.get(url, {params: params})
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch((error) => {
+                var message = error.message;
+                // if (error.response.status == 500) {
+                //     for(var i in error.response.data){
+                //         message = error.response.data[i];
+                //     }
+                // }
+                _.message(message,'error');
+                reject(error)
+            })
+    })
+}
+
 export default {
     /**
      * 用户登录
      */
     Login(params) {
         return postFetch('/login', params)
+    },
+    Logout(){
+        return postFetch('/logout')
+    },
+    PermissionList(params){
+        return getFetch('/api/admin/permission',params)
     }
     
 }

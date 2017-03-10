@@ -10336,7 +10336,7 @@ module.exports = function normalizeComponent (
 
 "use strict";
 /* unused harmony export Store */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return mapState; });
+/* unused harmony export mapState */
 /* unused harmony export mapMutations */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return mapGetters; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return mapActions; });
@@ -39752,6 +39752,7 @@ function applyToTag (styleElement, obj) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_element_ui__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_element_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_element_ui__);
 /* harmony export (immutable) */ __webpack_exports__["a"] = message;
+/* harmony export (immutable) */ __webpack_exports__["b"] = confirm;
 
 /**
  * Message 消息提示
@@ -39762,14 +39763,33 @@ function applyToTag (styleElement, obj) {
  * @return {[type]}                      [description]
  */
 function message(message) {
-  var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'info';
-  var showClose = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+    var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'info';
+    var showClose = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
-  __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_element_ui__["Message"])({
-    showClose: showClose,
-    message: message,
-    type: type
-  });
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_element_ui__["Message"])({
+        showClose: showClose,
+        message: message,
+        type: type
+    });
+}
+
+function confirm(message) {
+    var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '提示';
+    var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'info';
+    var confirmButton = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '确定';
+    var cancelButton = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '取消';
+
+    return new Promise(function (resolve, reject) {
+        __WEBPACK_IMPORTED_MODULE_0_element_ui__["MessageBox"].confirm(message, title, {
+            confirmButtonText: confirmButton,
+            cancelButtonText: cancelButton,
+            type: type
+        }).then(function () {
+            resolve();
+        }).catch(function () {
+            reject();
+        });
+    });
 }
 
 /***/ }),
@@ -39805,6 +39825,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_2_vue_
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('example', __webpack_require__(101));
 
 var router = new __WEBPACK_IMPORTED_MODULE_2_vue_router__["a" /* default */]({
+	mode: 'history',
 	base: '/',
 	routes: __WEBPACK_IMPORTED_MODULE_5__routes_route__["a" /* default */]
 });
@@ -40973,7 +40994,7 @@ exports = module.exports = __webpack_require__(12)();
 
 
 // module
-exports.push([module.i, "\nhtml[data-v-3ca2ffa9], body[data-v-3ca2ffa9] {\n  width: 100%;\n  background-color: #fff;\n}\n.container[data-v-3ca2ffa9] {\n  position: absolute;\n  top: 0px;\n  bottom: 0px;\n  width: 100%;\n  padding: 0;\n}\n.container .header[data-v-3ca2ffa9] {\n    height: 60px;\n    line-height: 60px;\n    background: #1F2D3D;\n    color: #c0ccda;\n}\n.container .header .userinfo[data-v-3ca2ffa9] {\n      text-align: right;\n      padding-right: 35px;\n}\n.container .header .userinfo .userinfo-inner[data-v-3ca2ffa9] {\n        color: #c0ccda;\n        cursor: pointer;\n        padding: 0 20px;\n}\n.container .header .logo[data-v-3ca2ffa9] {\n      font-size: 22px;\n      padding-left: 20px;\n}\n.container .header .logo .txt[data-v-3ca2ffa9] {\n        color: #20a0ff;\n}\n.container .main[data-v-3ca2ffa9] {\n    background: #324057;\n    position: absolute;\n    top: 60px;\n    bottom: 0px;\n    overflow: hidden;\n}\n.container .main aside[data-v-3ca2ffa9] {\n      width: 230px;\n}\n.container .main .content-container[data-v-3ca2ffa9] {\n      background: #f1f2f7;\n      position: absolute;\n      right: 0px;\n      top: 0px;\n      bottom: 0px;\n      left: 230px;\n      overflow-y: scroll;\n      padding: 20px;\n}\n.container .main .content-container .breadcrumb-container[data-v-3ca2ffa9] {\n        margin-bottom: 15px;\n}\n.container .main .content-container .breadcrumb-container .title[data-v-3ca2ffa9] {\n          width: 200px;\n          float: left;\n          color: #475669;\n}\n.container .main .content-container .breadcrumb-container .breadcrumb-inner[data-v-3ca2ffa9] {\n          float: right;\n}\n.container .main .content-container .content-wrapper[data-v-3ca2ffa9] {\n        background-color: #fff;\n        box-sizing: border-box;\n}\n", ""]);
+exports.push([module.i, "\nhtml[data-v-3ca2ffa9], body[data-v-3ca2ffa9] {\n  width: 100%;\n  background-color: #fff;\n}\n.container[data-v-3ca2ffa9] {\n  position: absolute;\n  top: 0px;\n  bottom: 0px;\n  width: 100%;\n  padding: 0;\n}\n.container .header[data-v-3ca2ffa9] {\n    height: 60px;\n    line-height: 60px;\n    background: #1F2D3D;\n    color: #c0ccda;\n    border-bottom: 3px solid #1AA094;\n}\n.container .header .userinfo[data-v-3ca2ffa9] {\n      text-align: right;\n      padding-right: 35px;\n}\n.container .header .userinfo .userinfo-inner[data-v-3ca2ffa9] {\n        color: #c0ccda;\n        cursor: pointer;\n        padding: 0 20px;\n}\n.container .header .logo[data-v-3ca2ffa9] {\n      font-size: 22px;\n      padding-left: 20px;\n}\n.container .header .logo .txt[data-v-3ca2ffa9] {\n        color: #20a0ff;\n}\n.container .main[data-v-3ca2ffa9] {\n    background: #324057;\n    position: absolute;\n    top: 60px;\n    bottom: 0px;\n    overflow: hidden;\n}\n.container .main aside[data-v-3ca2ffa9] {\n      width: 230px;\n}\n.container .main .content-container[data-v-3ca2ffa9] {\n      background: #f3f3f4;\n      position: absolute;\n      right: 0px;\n      top: 0px;\n      bottom: 0px;\n      left: 230px;\n      overflow-y: scroll;\n}\n.container .main .content-container .breadcrumb-container[data-v-3ca2ffa9] {\n        padding: 0 10px 20px 20px;\n        background: #fff;\n}\n.container .main .content-container .breadcrumb-container .title[data-v-3ca2ffa9] {\n          font-size: 24px;\n          margin-top: 20px;\n          margin-bottom: 10px;\n}\n.container .main .content-container .content-wrapper[data-v-3ca2ffa9] {\n        padding: 20px 10px 40px;\n        box-sizing: border-box;\n}\n", ""]);
 
 // exports
 
@@ -48644,7 +48665,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('span', {
     staticClass: "el-dropdown-link userinfo-inner"
-  }, [_vm._v(_vm._s(_vm.user.userInfo.name))]), _vm._v(" "), _c('el-dropdown-menu', {
+  }, [_vm._v(_vm._s(_vm.userInfo.name))]), _vm._v(" "), _c('el-dropdown-menu', {
     slot: "dropdown"
   }, [_c('el-dropdown-item', [_vm._v("我的消息")]), _vm._v(" "), _c('el-dropdown-item', [_vm._v("设置")]), _vm._v(" "), _c('el-dropdown-item', {
     attrs: {
@@ -48663,17 +48684,37 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('aside', [_c('el-menu', {
     staticClass: "el-menu-vertical-demo",
     attrs: {
-      "default-active": _vm.$route.path,
+      "default-active": "/admin",
       "theme": "dark",
-      "unique-opened": "",
       "router": ""
-    },
-    on: {
-      "open": _vm.handleopen,
-      "close": _vm.handleclose,
-      "select": _vm.handleselect
     }
-  })], 1), _vm._v(" "), _c('section', {
+  }, [_c('el-menu-item', {
+    attrs: {
+      "index": "/admin"
+    }
+  }, [_vm._v("控制台")]), _vm._v(" "), _c('el-submenu', {
+    attrs: {
+      "index": "1"
+    }
+  }, [_c('template', {
+    slot: "title"
+  }, [_vm._v("系统管理")]), _vm._v(" "), _c('el-menu-item', {
+    attrs: {
+      "index": "/admin/permission"
+    }
+  }, [_vm._v("权限管理")]), _vm._v(" "), _c('el-menu-item', {
+    attrs: {
+      "index": "/admin/role"
+    }
+  }, [_vm._v("角色管理")]), _vm._v(" "), _c('el-menu-item', {
+    attrs: {
+      "index": "/admin/user"
+    }
+  }, [_vm._v("用户管理")]), _vm._v(" "), _c('el-menu-item', {
+    attrs: {
+      "index": "/admin/menu"
+    }
+  }, [_vm._v("菜单管理")])], 2)], 1)], 1), _vm._v(" "), _c('section', {
     staticClass: "content-container"
   }, [_c('div', {
     staticClass: "grid-content bg-purple-light"
@@ -48682,14 +48723,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "span": 24
     }
-  }, [_c('strong', {
+  }, [_c('h3', {
     staticClass: "title"
-  }, [_vm._v(_vm._s(_vm.$route.name))]), _vm._v(" "), _c('el-breadcrumb', {
+  }, [_vm._v(_vm._s(_vm.$route.meta.title))]), _vm._v(" "), _c('el-breadcrumb', {
     staticClass: "breadcrumb-inner",
     attrs: {
       "separator": "/"
     }
-  })], 1), _vm._v(" "), _c('el-col', {
+  }, _vm._l((_vm.$route.matched), function(item) {
+    return _c('el-breadcrumb-item', {
+      key: item.path,
+      attrs: {
+        "to": {
+          path: item.path
+        }
+      }
+    }, [_vm._v("\n\t\t\t\t\t\t\t" + _vm._s(item.meta.title) + "\n\t\t\t\t\t\t")])
+  }))], 1), _vm._v(" "), _c('el-col', {
     staticClass: "content-wrapper",
     attrs: {
       "span": 24
@@ -51207,7 +51257,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_tool__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_http__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuex__ = __webpack_require__(10);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 //
 //
 //
@@ -51253,6 +51307,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
+
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = {
@@ -51261,33 +51324,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			title: 'hello'
 		};
 	},
+	beforeRouteEnter: function beforeRouteEnter(to, from, next) {
+		next(function (vm) {
+			if (!vm.loginStatus) {
+				vm.$router.replace('/login');
+			}
+		});
+	},
 
-	computed: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["d" /* mapState */])({ user: function user(state) {
-			return state.user;
-		} }),
-	methods: {
-		onSubmit: function onSubmit() {
-			console.log('submit!');
-		},
-		handleopen: function handleopen() {
-			//console.log('handleopen');
-		},
-		handleclose: function handleclose() {
-			//console.log('handleclose');
-		},
-
-		handleselect: function handleselect(a, b) {},
+	computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])(['loginStatus', 'userInfo'])),
+	methods: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapActions */])(['setSignOut']), {
 		//退出登录
 		logout: function logout() {
+			var _this2 = this;
+
 			var _this = this;
-			this.$confirm('确认退出吗?', '提示', {
-				//type: 'warning'
-			}).then(function () {
-				sessionStorage.removeItem('user');
+			__WEBPACK_IMPORTED_MODULE_0__utils_tool__["b" /* confirm */]('确认退出吗？', '提示', 'warning').then(function () {
+				__WEBPACK_IMPORTED_MODULE_1__utils_http__["a" /* default */].Logout();
+				_this2.setSignOut();
 				_this.$router.push('/login');
-			}).catch(function () {});
+			}).catch(function () {
+				__WEBPACK_IMPORTED_MODULE_0__utils_tool__["a" /* message */]('退出失败', 'error');
+			});
 		}
-	}
+	})
 };
 
 /***/ }),
@@ -51340,7 +51400,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
   beforeRouteEnter: function beforeRouteEnter(to, from, next) {
     next(function (vm) {
       if (vm.loginStatus) {
-        vm.$router.push('/');
+        vm.$router.push('/admin');
       }
     });
   },
@@ -51374,35 +51434,40 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_auth_Login___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_auth_Login__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Home__ = __webpack_require__(102);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Home___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_Home__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_dash_Index__ = __webpack_require__(123);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_dash_Index___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_dash_Index__);
+
 
 
 var Bar = { template: '<div>bar</div>' };
 var Bar1 = { template: '<div>bar1</div>' };
 var routes = [{
     path: '/',
+    redirect: '/admin'
+}, {
+    path: '/admin',
     component: __WEBPACK_IMPORTED_MODULE_1__components_Home___default.a,
-    title: '首页',
+    meta: {
+        title: '首页'
+    },
     children: [{
-        path: '/login', //登录
-        meta: { auth: false },
-        component: Bar,
-        title: '登录'
+        path: '/',
+        component: __WEBPACK_IMPORTED_MODULE_2__components_dash_Index___default.a,
+        meta: {
+            title: '控制台'
+        }
     }, {
         path: '/signout', //退出
         component: Bar,
-        title: '退出'
+        meta: {
+            title: '退出'
+        }
     }, {
         path: '/home', //个人主页
-        component: Bar,
-        title: '个人主页'
-    }, {
-        path: '/', //首页
-        meta: { auth: false },
         component: Bar1,
-        title: '首页'
-    }, {
-        path: '*', //其他页面，强制跳转到登录页面
-        redirect: '/login'
+        meta: {
+            title: '个人主页'
+        }
     }]
 }, {
     path: '/login',
@@ -51546,6 +51611,7 @@ var GET_USER_DATA = 'GET_USER_DATA'; //获取用户数据信息
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tool__ = __webpack_require__(35);
 /* unused harmony export postFetch */
+/* unused harmony export getFetch */
 
 
 __WEBPACK_IMPORTED_MODULE_0_axios___default.a.defaults.timeout = 5000;
@@ -51582,12 +51648,35 @@ function postFetch(url, params) {
     });
 }
 
+function getFetch(url, params) {
+    return new Promise(function (resolve, reject) {
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(url, { params: params }).then(function (response) {
+            resolve(response.data);
+        }).catch(function (error) {
+            var message = error.message;
+            // if (error.response.status == 500) {
+            //     for(var i in error.response.data){
+            //         message = error.response.data[i];
+            //     }
+            // }
+            __WEBPACK_IMPORTED_MODULE_1__tool__["a" /* message */](message, 'error');
+            reject(error);
+        });
+    });
+}
+
 /* harmony default export */ __webpack_exports__["a"] = {
     /**
      * 用户登录
      */
     Login: function Login(params) {
         return postFetch('/login', params);
+    },
+    Logout: function Logout() {
+        return postFetch('/logout');
+    },
+    PermissionList: function PermissionList(params) {
+        return getFetch('/api/admin/permission', params);
     }
 };
 
@@ -51597,6 +51686,55 @@ function postFetch(url, params) {
 
 module.exports = __webpack_require__(36);
 
+
+/***/ }),
+/* 123 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(9)(
+  /* script */
+  null,
+  /* template */
+  __webpack_require__(124),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\phpStudy\\WWW\\laravue\\resources\\assets\\js\\components\\dash\\Index.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Index.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1d532e1f", Component.options)
+  } else {
+    hotAPI.reload("data-v-1d532e1f", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 124 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_vm._v("\n\tdashboard 首页\n")])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-1d532e1f", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
