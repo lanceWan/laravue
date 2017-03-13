@@ -1,10 +1,8 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
 class LoginController extends Controller
 {
     /*
@@ -34,11 +32,16 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'logout']);
+        // $this->middleware('guest', ['except' => 'logout']);
     }
+
+    
 
     protected function authenticated(Request $request, $user)
     {
-        return response()->json($user);
+        $userPermissions = $request->user()->getPermissions();
+        $permissions = $userPermissions->pluck('slug')->all();
+        $userInfo = $user->toArray();
+        return response()->json(compact('userInfo','permissions'));
     }
 }

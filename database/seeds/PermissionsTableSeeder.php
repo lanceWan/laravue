@@ -36,7 +36,7 @@ class PermissionsTableSeeder extends Seeder
          */
         Permission::create([
             'name' => '显示菜单列表',
-            'slug' => 'menu.list',
+            'slug' => 'menu.index',
             'description' => '显示菜单列表'
         ]);
         /**
@@ -79,7 +79,7 @@ class PermissionsTableSeeder extends Seeder
          */
         Permission::create([
             'name' => '显示角色列表',
-            'slug' => 'role.list',
+            'slug' => 'role.index',
             'description' => '显示角色列表'
         ]);
         /**
@@ -122,7 +122,7 @@ class PermissionsTableSeeder extends Seeder
          */
         Permission::create([
             'name' => '显示权限列表',
-            'slug' => 'permission.list',
+            'slug' => 'permission.index',
             'description' => '显示权限列表'
         ]);
         /**
@@ -157,7 +157,7 @@ class PermissionsTableSeeder extends Seeder
          */
         Permission::create([
             'name' => '显示用户列表',
-            'slug' => 'user.list',
+            'slug' => 'user.index',
             'description' => '显示用户列表'
         ]);
         /**

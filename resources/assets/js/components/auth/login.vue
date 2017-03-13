@@ -52,21 +52,23 @@
 		},
     methods: {
     	...mapActions([
-      'setUserInfo' 
+      'setUserInfo',
+      'setUserPermissions'
     	]),
    		submitForm(formName) {
    			var _form = this.form;
       	this.loading = true;
-	        this.$refs[formName].validate((valid) => {
-	          if (valid) {
-		          api.Login(_form).then(response => {
-		          	this.setUserInfo(response);
-		          	this.$router.replace('/')
-		          });
-	          	this.loading = false;
-	          }
-	        });
-      	},
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+	          api.Login(_form).then(response => {
+              this.setUserInfo(response.userInfo);
+	          	this.setUserPermissions(response.permissions);
+              window.location = '/';
+	          });
+          	this.loading = false;
+          }
+        });
+    	},
     }
   }
 </script>

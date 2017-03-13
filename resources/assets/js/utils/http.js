@@ -61,9 +61,9 @@ export default {
     Logout(){
         return postFetch('/logout')
     },
-    // 权限列表
-    PermissionList(params){
-        return getFetch('/api/admin/permission',params)
+    // 数据列表
+    DataList(url, params){
+        return getFetch(url,params)
     }
     
 }

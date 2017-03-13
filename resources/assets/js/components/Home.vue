@@ -79,11 +79,10 @@
     	]),
 			//退出登录
 			logout: function () {
-				var _this = this;
 				_.confirm('确认退出吗？', '提示','warning').then(() => {
 					api.Logout();
 					this.setSignOut();
-					_this.$router.push('/login');
+					window.location = '/login';
 				}).catch(() => {
 					_.message('退出失败','error');
 				});

@@ -31,13 +31,15 @@ class PermissionService
 			// 排序规则
 			$order = request('order', config('admin.global.pagination.order'));
 
+			$order = $order == 'ascending' ? 'asc' : 'desc';
+
 			// search
 			$search = request('search','');
 
 			$start = ($page - 1) * $pageSize;
 
 			if ($search) {
-				$this->permissionRepo->pushCriteria(new SearchCriteria(['name','slug']));
+				$this->permissionRepo->pushCriteria(new SearchCriteria(['name','slug'],$search));
 			}
 			$total = $this->permissionRepo->skipPresenter()->all(['id'])->count();
 

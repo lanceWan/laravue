@@ -4,11 +4,22 @@
 	    <h5>权限列表</h5>
 	  </div>
 	  <div class="ibox-content">
+	  	<el-row class="header-tool" :gutter="10">
+	  		<el-col :span="4">
+	  			<el-input v-model="pagination.search" placeholder="请输入内容"></el-input>
+	  		</el-col>
+	  		<el-col :span="4">
+	  			<el-button type="info" icon="search" @click="handleSearch">搜索</el-button>
+	  		</el-col>
+	  	</el-row>
 	  	<el-row>
 			  <el-col :span="24">
 			  	<el-table
 				    :data="tableData"
 				    border
+				    @sort-change="handleSortChange"
+				    v-loading="loading"
+    				element-loading-text="拼命加载中..."
 				    style="width: 100%">
 				    <el-table-column
 				      type="selection"
@@ -70,40 +81,16 @@
 	</div>
 </template>
 <script>
-	import api from '../../utils/http'
-	import * as _ from '../../utils/tool'
+	import list from '../../mixins/list'
 	export default{
+		mixins: [list],
 		data() {
       return {
-      	tableData: [],
-	      pagination:{
-	      	currentPage: 1,
-	        pageSize: 10,
-	        column: 'id',
-	        order: 'asc'
-	      },
-        total: 0,
-      }
-    },
-    methods: {
-      handleSizeChange(val) {
-        this.pagination.pageSize = val;
-        this.permissionList(this.pagination);
-      },
-      handleCurrentChange(val) {
-        this.pagination.currentPage = val;
-        api.PermissionList()
-        this.permissionList(this.pagination);
-      },
-      permissionList(params){
-      	api.PermissionList(params).then(response => {
-	    		this.total = response.total;
-	    		this.tableData = response.permissions;
-	    	});
+      	apiUrl: '/api/admin/permission'
       }
     },
     created() {
-    	this.permissionList(this.pagination);
+    	this.dataList(this.apiUrl, this.pagination);
     }
 	}
 </script>
@@ -145,6 +132,9 @@
 	    border-style: solid solid none;
 	    border-width: 1px 0;
       clear: both;
+      .header-tool{
+      	margin-bottom:20px;
+      }
       .el-pagination{
 	    	text-align: right;
 		    margin-top: 20px;

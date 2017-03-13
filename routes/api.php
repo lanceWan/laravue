@@ -17,7 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin'],function ($router)
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth:api', 'permission']],function ($router)
 {
 	// 权限
 	$router->resource('permission','PermissionController');

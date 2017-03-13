@@ -7,13 +7,11 @@ import 'element-ui/lib/theme-default/index.css'
 import App from './App.vue'
 import routes from './routes/route'
 import store from './stores/store'
-import mixin from './mixins/mixin'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
 
 Vue.component('example', require('./components/Example.vue'));
-
 
 const router = new VueRouter({
 	mode: 'history',
@@ -22,7 +20,6 @@ const router = new VueRouter({
 })
 
 const app = new Vue({
-	mixins: [mixin],
 	store,
 	router,
     render: h => h(App)
