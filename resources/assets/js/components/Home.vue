@@ -39,7 +39,7 @@
 						</el-breadcrumb>
 					</el-col>
 					<el-col :span="24" class="content-wrapper">
-						<transition>
+						<transition name="fade">
 							<router-view></router-view>
 						</transition>
 					</el-col>
@@ -82,7 +82,7 @@
 				_.confirm('确认退出吗？', '提示','warning').then(() => {
 					api.Logout();
 					this.setSignOut();
-					window.location = '/login';
+					this.$router.go('/login');
 				}).catch(() => {
 					_.message('退出失败','error');
 				});

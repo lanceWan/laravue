@@ -6,7 +6,7 @@ const state = {
     // 用户登录信息
     userInfo: JSON.parse(localStorage.getItem('userInfo')) || {},
     // 用户权限
-    permissions: []
+    userPermissions: []
 }
 
 const actions = {
@@ -32,7 +32,6 @@ const actions = {
     },
 
     setUserPermissions({ commit }, res){
-        localStorage.setItem('userPermissions', JSON.stringify(res))
         commit(types.SET_USER_PERMISSIONS, res)
     },
 }
@@ -40,7 +39,7 @@ const actions = {
 const getters = {
     loginStatus: state => state.loginStatus,
     userInfo: state => state.userInfo,
-    userPermissions: state => state.permissions,
+    userPermissions: state => state.userPermissions,
 }
 
 const mutations = {
@@ -53,7 +52,7 @@ const mutations = {
     },
 
     [types.SET_USER_PERMISSIONS](state, res) {
-        state.permissions = res
+        state.userPermissions = res
     }
     
 }

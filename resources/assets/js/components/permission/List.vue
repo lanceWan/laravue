@@ -63,6 +63,7 @@
 				  </el-table>
 			  </el-col>
 			</el-row>
+			{{ userPermissions }}
 			<el-row type="flex" justify="end">
 			  <el-col :span="12">
 				  <el-pagination
@@ -91,6 +92,7 @@
     },
     created() {
     	this.dataList(this.apiUrl, this.pagination);
+    	// this.hasPermission('permission.create')
     }
 	}
 </script>

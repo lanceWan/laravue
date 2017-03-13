@@ -1,3 +1,4 @@
+import * as _ from 'lodash'
 import api from '../utils/http'
 import { mapGetters } from 'vuex'
 export default {
@@ -47,8 +48,12 @@ export default {
     handleSearch(){
       this.dataList(this.apiUrl, this.pagination);
     },
-    hasCreatePermission(permission){
-      console.log(this.userPermissions)
+    hasPermission(permission){
+      console.log(this.userPermissions,permission)
+      console.log(_.includes(this.userPermissions,permission))
     }
   },
+  created() {
+    console.log(this.userPermissions);
+  }
 }

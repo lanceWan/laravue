@@ -32,16 +32,13 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware('guest', ['except' => 'logout']);
+        $this->middleware('guest', ['except' => 'logout']);
     }
 
     
 
     protected function authenticated(Request $request, $user)
     {
-        $userPermissions = $request->user()->getPermissions();
-        $permissions = $userPermissions->pluck('slug')->all();
-        $userInfo = $user->toArray();
-        return response()->json(compact('userInfo','permissions'));
+        return response()->json($user);
     }
 }

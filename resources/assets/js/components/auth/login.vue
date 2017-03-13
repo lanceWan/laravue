@@ -52,18 +52,17 @@
 		},
     methods: {
     	...mapActions([
-      'setUserInfo',
-      'setUserPermissions'
+      'setUserInfo'
     	]),
    		submitForm(formName) {
    			var _form = this.form;
+        var _this = this;
       	this.loading = true;
         this.$refs[formName].validate((valid) => {
           if (valid) {
 	          api.Login(_form).then(response => {
-              this.setUserInfo(response.userInfo);
-	          	this.setUserPermissions(response.permissions);
-              window.location = '/';
+              this.setUserInfo(response);
+              _this.$router.go('/')
 	          });
           	this.loading = false;
           }
