@@ -146,6 +146,7 @@
 				.breadcrumb-container {
 					padding:0 10px 20px 20px;
 					background:#fff;
+					border-bottom:1px solid #e7eaec;
 					.title {
 						font-size:24px;
 				    margin-top: 20px;

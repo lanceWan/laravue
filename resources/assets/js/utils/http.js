@@ -8,7 +8,6 @@ axios.defaults.headers.common = {
 // 添加响应拦截器
 axios.interceptors.response.use(function (response) {
 	// 对响应数据做点什么
-    console.log('response:',response);
 	if (response.status === 400 || response.status === 401) {
 		window.location = '/login';
 	}
@@ -44,11 +43,9 @@ export function getFetch(url, params) {
             })
             .catch((error) => {
                 var message = error.message;
-                // if (error.response.status == 500) {
-                //     for(var i in error.response.data){
-                //         message = error.response.data[i];
-                //     }
-                // }
+                if (error.response.status == 500) {
+                    message = error.response.data.message;
+                }
                 _.message(message,'error');
                 reject(error)
             })

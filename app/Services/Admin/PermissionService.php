@@ -20,11 +20,10 @@ class PermissionService
 			'code' => 0,
 			'status' => 200,
 			'message' => 'ok',
-			'results' => []
 		];
 		try {
-			// 当前页数
-			$page = request('page', config('admin.global.pagination.page'));
+			// 当前请求页数
+			$page = request('currentPage', config('admin.global.pagination.page'));
 			// 每页显示条数
 			$pageSize = request('pageSize', config('admin.global.pagination.pageSize'));
 			// 需要排序的列名

@@ -25,7 +25,7 @@
         loading: false,
         form: {
           email: '709344897@qq.com',
-          password: '123123'
+          password: '123456'
         },
         rules: {
           email: [

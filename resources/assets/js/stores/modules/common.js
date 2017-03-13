@@ -1,7 +1,7 @@
 import * as types from '../types'
 
 const state = {
-    // 用户登录状态
+    // 每页
     loading: JSON.parse(localStorage.getItem('loginStatus')) || false,
     // 用户登录信息
     userInfo: JSON.parse(localStorage.getItem('userInfo')) || {},
