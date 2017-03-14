@@ -1,12 +1,13 @@
 import * as types from '../types'
 import api from '../../utils/http'
+import { AES, enc } from 'crypto-js'
 const state = {
     // 用户登录状态
     loginStatus: JSON.parse(localStorage.getItem('loginStatus')) || false,
     // 用户登录信息
     userInfo: JSON.parse(localStorage.getItem('userInfo')) || {},
     // 用户权限
-    userPermissions: []
+    userPermissions: localStorage.getItem('userPermissions') || ''
 }
 
 const actions = {
@@ -31,14 +32,21 @@ const actions = {
   },
 
   setUserPermissions({ commit }, res){
-    commit(types.SET_USER_PERMISSIONS, res)
+    // console.log(AES.encrypt(JSON.stringify(res), types.SECRET_KEY).toString())
+    var userPermissions = AES.encrypt(JSON.stringify(res), types.SECRET_KEY).toString();
+    localStorage.setItem('userPermissions', userPermissions)
+    commit(types.SET_USER_PERMISSIONS, userPermissions)
   },
 }
 
 const getters = {
   loginStatus: state => state.loginStatus,
   userInfo: state => state.userInfo,
-  userPermissions: state => state.userPermissions,
+  userPermissions: state => {
+    // console.log(JSON.parse(AES.decrypt(state.userPermissions, types.SECRET_KEY).toString(enc.Utf8)))
+    return JSON.parse(AES.decrypt(state.userPermissions, types.SECRET_KEY).toString(enc.Utf8));
+    // return JSON.parse(AES.decrypt(state.userPermissions, types.SECRET_KEY))
+  }
 }
 
 const mutations = {

@@ -74,7 +74,7 @@ class PermissionService
 			$permissions = auth()->user()->getPermissions();
 			$responseData['permissions'] = [];
 			if (!$permissions->isEmpty()) {
-				$responseData['permissions'] = $permissions->pluck('slug')->toArray();
+				$responseData['permissions'] = $permissions->pluck('slug');
 			}
 		} catch (Exception $e) {
 			$responseData['code'] = 1002;

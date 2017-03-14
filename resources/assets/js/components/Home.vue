@@ -29,6 +29,7 @@
 		    </el-menu>
 			</aside>
 			<section class="content-container">
+			{{userPermissions}}
 				<transition name="fade">
 					<router-view></router-view>
 				</transition>
@@ -79,10 +80,10 @@
 			},
 			// 获取用户所有权限
 	    getPermission(){
-        if (this.userPermissions.length < 1 && this.loginStatus) {
-		      api.GetPermissions().then(response => {
-		          this.setUserPermissions(response.permissions);
-		      })
+	      api.GetPermissions().then(response => {
+	          this.setUserPermissions(response.permissions);
+	      })
+        if (this.userPermissions && this.loginStatus) {
         }
 	    }
 		},
