@@ -50,10 +50,63 @@ class PermissionService
 			$responseData['permissions'] = $permissions['data'];
 
 		} catch (Exception $e) {
-			dd($e);
 			$responseData['code'] = 1001;
 			$responseData['status'] = 500;
 			$responseData['message'] = 'error:index-获取权限列表数据失败';
+		}
+		return $responseData;
+	}
+
+	/**
+	 * 获取当前用户的所有权限
+	 * @author 晚黎
+	 * @date   2017-03-14T09:33:58+0800
+	 * @return [type]                   [description]
+	 */
+	public function userPermissions()
+	{
+		$responseData = [
+			'code' => 0,
+			'status' => 200,
+			'message' => 'ok',
+		];
+		try {
+			$permissions = auth()->user()->getPermissions();
+			$responseData['permissions'] = [];
+			if (!$permissions->isEmpty()) {
+				$responseData['permissions'] = $permissions->pluck('slug')->toArray();
+			}
+		} catch (Exception $e) {
+			$responseData['code'] = 1002;
+			$responseData['status'] = 500;
+			$responseData['message'] = 'error:userPermissions-获取用户权限信息失败';
+		}
+		return $responseData;
+	}
+
+	/**
+	 * 添加权限
+	 * @author 晚黎
+	 * @date   2017-03-14T15:42:05+0800
+	 * @param  [type]                   $attributes [description]
+	 * @return [type]                               [description]
+	 */
+	public function store($attributes)
+	{
+		$responseData = [
+			'code' => 0,
+			'status' => 200,
+			'message' => 'ok',
+		];
+		try {
+			$permission = $this->permissionRepo->create($attributes);
+			if ($permission) {
+				$responseData['message'] = '创建权限成功';
+			}
+		} catch (Exception $e) {
+			$responseData['code'] = 1003;
+			$responseData['status'] = 500;
+			$responseData['message'] = 'error:store-添加权限失败';
 		}
 		return $responseData;
 	}

@@ -1,5 +1,5 @@
 import * as types from '../types'
-
+import api from '../../utils/http'
 const state = {
     // 用户登录状态
     loginStatus: JSON.parse(localStorage.getItem('loginStatus')) || false,
@@ -10,56 +10,55 @@ const state = {
 }
 
 const actions = {
-    /**
-     * 用户登录
-     */
-    setUserInfo({ commit }, res) {
-        localStorage.setItem('userInfo', JSON.stringify(res))
-        localStorage.setItem('loginStatus', true)
-        commit(types.SET_USER_INFO, res)
-        commit(types.SET_LOGIN_STATUS, true)
-    },
+  /**
+   * 用户登录
+   */
+  setUserInfo({ commit }, res) {
+    localStorage.setItem('userInfo', JSON.stringify(res))
+    localStorage.setItem('loginStatus', true)
+    commit(types.SET_USER_INFO, res)
+    commit(types.SET_LOGIN_STATUS, true)
+  },
 
-    /**
-     * 退出登录
-     */
-    setSignOut({ commit }) {
-        localStorage.removeItem('loginStatus')
-        localStorage.removeItem('userInfo')
-        localStorage.removeItem('userPermissions')
-        commit(types.SET_LOGIN_STATUS, false)
-        commit(types.SET_USER_INFO, {})
-    },
+  /**
+   * 退出登录
+   */
+  setSignOut({ commit }) {
+    localStorage.removeItem('loginStatus')
+    localStorage.removeItem('userInfo')
+    commit(types.SET_LOGIN_STATUS, false)
+    commit(types.SET_USER_INFO, {})
+  },
 
-    setUserPermissions({ commit }, res){
-        commit(types.SET_USER_PERMISSIONS, res)
-    },
+  setUserPermissions({ commit }, res){
+    commit(types.SET_USER_PERMISSIONS, res)
+  },
 }
 
 const getters = {
-    loginStatus: state => state.loginStatus,
-    userInfo: state => state.userInfo,
-    userPermissions: state => state.userPermissions,
+  loginStatus: state => state.loginStatus,
+  userInfo: state => state.userInfo,
+  userPermissions: state => state.userPermissions,
 }
 
 const mutations = {
-    [types.SET_USER_INFO](state, res) {
-        state.userInfo = res
-    },
+  [types.SET_USER_INFO](state, res) {
+    state.userInfo = res
+  },
 
-    [types.SET_LOGIN_STATUS](state, status) {
-        state.loginStatus = status
-    },
+  [types.SET_LOGIN_STATUS](state, status) {
+    state.loginStatus = status
+  },
 
-    [types.SET_USER_PERMISSIONS](state, res) {
-        state.userPermissions = res
-    }
+  [types.SET_USER_PERMISSIONS](state, res) {
+    state.userPermissions = res
+  },
     
 }
 
 export default {
-    state,
-    actions,
-    getters,
-    mutations
+  state,
+  actions,
+  getters,
+  mutations
 }

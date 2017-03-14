@@ -17,7 +17,7 @@
 		</el-col>
 		<el-col :span="24" class="main">
 			<aside>
-				<el-menu default-active="/admin" class="el-menu-vertical-demo" theme="dark" router>
+				<el-menu :default-active="$route.path" class="el-menu-vertical-demo" theme="dark" router>
 		      <el-menu-item index="/admin">控制台</el-menu-item>
 		      <el-submenu index="1">
 		        <template slot="title">系统管理</template>
@@ -29,21 +29,9 @@
 		    </el-menu>
 			</aside>
 			<section class="content-container">
-				<div class="grid-content bg-purple-light">
-					<el-col :span="24" class="breadcrumb-container">
-						<h3 class="title">{{$route.meta.title}}</h3>
-						<el-breadcrumb separator="/" class="breadcrumb-inner">
-							<el-breadcrumb-item :to="{path:item.path}" v-for="item in $route.matched" :key="item.path">
-								{{ item.meta.title }}
-							</el-breadcrumb-item>
-						</el-breadcrumb>
-					</el-col>
-					<el-col :span="24" class="content-wrapper">
-						<transition name="fade">
-							<router-view></router-view>
-						</transition>
-					</el-col>
-				</div>
+				<transition name="fade">
+					<router-view></router-view>
+				</transition>
 			</section>
 		</el-col>
 	</el-row>
@@ -60,22 +48,24 @@
 				title:'hello'
 			}
 		},
+		computed: {
+			...mapGetters([
+    		'loginStatus',
+    		'userInfo',
+    		'userPermissions'
+			])
+		},
 		beforeRouteEnter (to, from, next) {
     	next((vm) => {
         if(!vm.loginStatus) {
           vm.$router.replace('/login')
         }
-     	})
-		},
-		computed: {
-			...mapGetters([
-    		'loginStatus',
-    		'userInfo'
-			])
-		},
+      })
+	  },
 		methods: {
 			...mapActions([
-      	'setSignOut' 
+      	'setSignOut',
+      	'setUserPermissions'
     	]),
 			//退出登录
 			logout: function () {
@@ -86,7 +76,18 @@
 				}).catch(() => {
 					_.message('退出失败','error');
 				});
-			}
+			},
+			// 获取用户所有权限
+	    getPermission(){
+        if (this.userPermissions.length < 1 && this.loginStatus) {
+		      api.GetPermissions().then(response => {
+		          this.setUserPermissions(response.permissions);
+		      })
+        }
+	    }
+		},
+		created() {
+			this.getPermission();
 		}
 	}
 </script>
@@ -133,29 +134,6 @@
 			overflow: hidden;
 			aside {
 				width: 230px;
-			}
-			.content-container {
-				background: #f3f3f4;
-				position: absolute;
-				right: 0px;
-				top: 0px;
-				bottom: 0px;
-				left: 230px;
-				overflow-y: scroll;
-				.breadcrumb-container {
-					padding:0 10px 20px 20px;
-					background:#fff;
-					border-bottom:1px solid #e7eaec;
-					.title {
-						font-size:24px;
-				    margin-top: 20px;
-    				margin-bottom: 10px
-					}
-				}
-				.content-wrapper {
-					padding: 20px 10px 40px;
-					box-sizing: border-box;
-				}
 			}
 		}
 	}

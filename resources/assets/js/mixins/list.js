@@ -1,6 +1,7 @@
 import * as _ from 'lodash'
 import api from '../utils/http'
 import { mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
 	data() {
     return {
@@ -16,12 +17,28 @@ export default {
       loading:false
     }
   },
+  // beforeRouteEnter (to, from, next) {
+  //   next((vm) => {
+  //     console.log(vm.userPermissions)
+  //     if ((vm.userPermissions.length > 0) && vm.loginStatus) {
+  //       if (!_.includes(vm.userPermissions,to.name)) {
+  //         vm.$router.replace('/admin/error');
+  //       }
+  //     }else{
+  //       vm.$router.push('/admin');
+  //     }
+  //   })
+  // },
   computed: {
     ...mapGetters([
+      'loginStatus',
       'userPermissions'
     ])
   },
   methods: {
+    ...mapActions([
+      'setUserPermissions',
+    ]),
     handleSizeChange(val) {
       this.pagination.pageSize = val;
       this.dataList(this.apiUrl, this.pagination);
@@ -49,11 +66,13 @@ export default {
       this.dataList(this.apiUrl, this.pagination);
     },
     hasPermission(permission){
-      console.log(this.userPermissions,permission)
-      console.log(_.includes(this.userPermissions,permission))
-    }
+      if (_.includes(this.userPermissions,permission)) {
+        return true;
+      }
+      return false;
+    },
   },
   created() {
-    console.log(this.userPermissions);
+
   }
 }

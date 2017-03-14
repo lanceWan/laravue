@@ -76,6 +76,8 @@
 	html,body{
 		width: 100%;
 		background-color: #16a085;
+    margin:0;
+    padding:0;
 	}
 	.login-container {
 		-webkit-border-radius: 5px;

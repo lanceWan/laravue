@@ -15,7 +15,6 @@ Vue.component('example', require('./components/Example.vue'));
 
 const router = new VueRouter({
 	mode: 'history',
-	base: '/',
 	routes
 })
 

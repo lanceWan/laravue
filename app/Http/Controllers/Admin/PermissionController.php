@@ -36,8 +36,8 @@ class PermissionController extends Controller
      */
     public function store(PermissionCreateRequest $request)
     {
-
-        
+        $responseData = $this->service->store($request->all());
+        return response()->json($responseData,$responseData['status']);
     }
 
 
@@ -93,5 +93,17 @@ class PermissionController extends Controller
     public function destroy($id)
     {
         
+    }
+
+    /**
+     * 获取当前用户的所有权限
+     * @author 晚黎
+     * @date   2017-03-14T09:29:03+0800
+     * @return [type]                   [description]
+     */
+    public function getUserPermissions()
+    {
+        $responseData = $this->service->userPermissions();
+        return response()->json($responseData,$responseData['status']);
     }
 }

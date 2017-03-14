@@ -83,11 +83,19 @@ class PermissionsTableSeeder extends Seeder
             'description' => '显示角色列表'
         ]);
         /**
+         * 创建角色页面
+         */
+        Permission::create([
+            'name' => '创建角色页面',
+            'slug' => 'role.create',
+            'description' => '创建角色页面'
+        ]);
+        /**
          * 创建角色
          */
         Permission::create([
             'name' => '创建角色',
-            'slug' => 'role.create',
+            'slug' => 'role.store',
             'description' => '创建角色'
         ]);
         /**
@@ -99,11 +107,19 @@ class PermissionsTableSeeder extends Seeder
             'description' => '删除角色'
         ]);
         /**
+         * 修改角色页面
+         */
+        Permission::create([
+            'name' => '修改角色页面',
+            'slug' => 'role.edit',
+            'description' => '修改角色页面'
+        ]);
+        /**
          * 修改角色
          */
         Permission::create([
             'name' => '修改角色',
-            'slug' => 'role.edit',
+            'slug' => 'role.update',
             'description' => '修改角色'
         ]);
         /**
@@ -126,11 +142,19 @@ class PermissionsTableSeeder extends Seeder
             'description' => '显示权限列表'
         ]);
         /**
+         * 创建权限页面
+         */
+        Permission::create([
+            'name' => '创建权限页面',
+            'slug' => 'permission.create',
+            'description' => '创建权限页面'
+        ]);
+        /**
          * 创建权限
          */
         Permission::create([
             'name' => '创建权限',
-            'slug' => 'permission.create',
+            'slug' => 'permission.store',
             'description' => '创建权限'
         ]);
         /**
@@ -142,13 +166,22 @@ class PermissionsTableSeeder extends Seeder
             'description' => '删除权限'
         ]);
         /**
+         * 修改权限页面
+         */
+        Permission::create([
+            'name' => '修改权限页面',
+            'slug' => 'permission.edit',
+            'description' => '修改权限页面'
+        ]);
+        /**
          * 修改权限
          */
         Permission::create([
             'name' => '修改权限',
-            'slug' => 'permission.edit',
+            'slug' => 'permission.update',
             'description' => '修改权限'
         ]);
+
         /////////////
         //用户管理 //
         ////////////
@@ -161,19 +194,35 @@ class PermissionsTableSeeder extends Seeder
             'description' => '显示用户列表'
         ]);
         /**
+         * 创建用户页面
+         */
+        Permission::create([
+            'name' => '创建用户页面',
+            'slug' => 'user.create',
+            'description' => '创建用户页面'
+        ]);
+        /**
          * 创建用户
          */
         Permission::create([
             'name' => '创建用户',
-            'slug' => 'user.create',
+            'slug' => 'user.store',
             'description' => '创建用户'
+        ]);
+        /**
+         * 修改用户页面
+         */
+        Permission::create([
+            'name' => '修改用户页面',
+            'slug' => 'user.edit',
+            'description' => '修改用户页面'
         ]);
         /**
          * 修改用户信息
          */
         Permission::create([
             'name' => '修改用户',
-            'slug' => 'user.edit',
+            'slug' => 'user.update',
             'description' => '修改用户'
         ]);
         /**
@@ -199,6 +248,15 @@ class PermissionsTableSeeder extends Seeder
             'name' => '修改用户密码',
             'slug' => 'user.reset',
             'description' => '修改用户密码'
+        ]);
+
+        /**
+         * 获取用户权限信息
+         */
+        Permission::create([
+            'name' => '获取用户权限信息',
+            'slug' => 'user.info',
+            'description' => '获取用户权限信息'
         ]);
     }
 }

@@ -55,15 +55,22 @@ export function getFetch(url, params) {
 export default {
     // 用户登录
     Login(params) {
-        return postFetch('/login', params)
+        return postFetch('/login', params);
     },
     // 退出登录
     Logout(){
-        return postFetch('/logout')
+        return postFetch('/logout');
     },
     // 数据列表
     DataList(url, params){
-        return getFetch(url,params)
-    }
+        return getFetch(url,params);
+    },
+    // 获取用户权限
+    GetPermissions(){
+        return getFetch('/api/admin/userPermission');
+    },
+    Create(url, params){
+        return postFetch(url, params);
+    },
     
 }
