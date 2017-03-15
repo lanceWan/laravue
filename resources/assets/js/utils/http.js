@@ -26,11 +26,11 @@ export function postFetch(url, params) {
                 var message = error.message;
                 if (error.response.status == 422) {
                     for(var i in error.response.data){
-                        message = error.response.data[i];
+                        message = error.response.data[i][0];
                     }
                 }
                 _.message(message,'error');
-                reject(error)
+                reject(message)
             })
     })
 }
@@ -72,5 +72,8 @@ export default {
     Create(url, params){
         return postFetch(url, params);
     },
+    Edit(url, params){
+       return getFetch(url, params); 
+    }
     
 }

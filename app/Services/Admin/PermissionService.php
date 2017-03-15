@@ -110,4 +110,28 @@ class PermissionService
 		}
 		return $responseData;
 	}
+
+	/**
+	 * 权限数据
+	 * @author 晚黎
+	 * @date   2017-03-15T13:19:32+0800
+	 * @param  [type]                   $id [description]
+	 * @return [type]                       [description]
+	 */
+	public function edit($id)
+	{
+		$responseData = [
+			'code' => 0,
+			'status' => 200,
+			'message' => 'ok',
+		];
+		try {
+			$responseData['permission'] = $this->permissionRepo->skipPresenter()->find($id,['name','slug','description']);
+		} catch (Exception $e) {
+			$responseData['code'] = 1004;
+			$responseData['status'] = 500;
+			$responseData['message'] = 'error:edit-获取权限数据失败';
+		}
+		return $responseData;
+	}
 }

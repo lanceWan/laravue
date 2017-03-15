@@ -71,8 +71,8 @@
 						      label="操作"
 						      width="120">
 						      <template scope="scope">
-						        <el-button type="text" size="small">查看</el-button>
-						        <el-button type="text" size="small">编辑</el-button>
+					        	<el-button type="success" size="small" icon="edit" @click="handleEdit('permission.edit',scope.row)"></el-button>
+					        	<el-button type="danger" size="small" icon="delete"></el-button>
 						      </template>
 						    </el-table-column>
 						  </el-table>

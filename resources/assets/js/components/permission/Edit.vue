@@ -41,7 +41,7 @@
 							    <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="权限描述" v-model="ruleForm.description"></el-input>
 							  </el-form-item>
 							  <el-form-item>
-							    <el-button type="primary" :loading="loading" @click="submitForm('ruleForm')">立即创建</el-button>
+							    <el-button type="primary" :loading="loading" @click="submitForm('ruleForm')">保存</el-button>
 							    <el-button @click="resetForm('ruleForm')">重置</el-button>
 							  </el-form-item>
 							</el-form>
@@ -54,6 +54,8 @@
 </template>
 <script>
 	import mixin from '../../mixins/create'
+	import api from '../../utils/http'
+	import * as _ from '../../utils/tool'
   export default {
   	mixins: [mixin],
     data() {
@@ -79,13 +81,24 @@
       	var _this = this;
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            _this.create('/api/admin/permission',_this.ruleForm);
+            
           }
         });
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      },
+      getPermission(){
+      	api.Edit('/api'+this.$route.path).then(response => {
+      		this.ruleForm = response.permission
+      	}).catch(error => {
+      		_.notification_error(error.response.data.message)
+      		this.$router.push({name: 'permission.index'})
+      	})
       }
+    },
+    created() {
+    	this.getPermission()
     }
   }
 </script>

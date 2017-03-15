@@ -29,7 +29,6 @@
 		    </el-menu>
 			</aside>
 			<section class="content-container">
-			{{userPermissions}}
 				<transition name="fade">
 					<router-view></router-view>
 				</transition>
@@ -58,37 +57,26 @@
 		},
 		beforeRouteEnter (to, from, next) {
     	next((vm) => {
-        if(!vm.loginStatus) {
+        if(vm.loginStatus == '0') {
           vm.$router.replace('/login')
         }
       })
 	  },
 		methods: {
 			...mapActions([
-      	'setSignOut',
-      	'setUserPermissions'
+      	'setSignOut'
     	]),
 			//退出登录
 			logout: function () {
 				_.confirm('确认退出吗？', '提示','warning').then(() => {
-					api.Logout();
-					this.setSignOut();
-					this.$router.go('/login');
-				}).catch(() => {
-					_.message('退出失败','error');
+					api.Logout().then(response => {
+						this.setSignOut();
+						this.$router.go('/');
+					}).catch(error => {
+						_.message(error.message)
+					});
 				});
-			},
-			// 获取用户所有权限
-	    getPermission(){
-	      api.GetPermissions().then(response => {
-	          this.setUserPermissions(response.permissions);
-	      })
-        if (this.userPermissions && this.loginStatus) {
-        }
-	    }
-		},
-		created() {
-			this.getPermission();
+			}
 		}
 	}
 </script>

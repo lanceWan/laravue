@@ -63,8 +63,8 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-
-       
+        $responseData = $this->service->edit($id);
+        return response()->json($responseData,$responseData['status']);
     }
 
 

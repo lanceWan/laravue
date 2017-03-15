@@ -2,8 +2,10 @@ import Login from '../components/auth/Login'
 import ErrorPermission from '../components/error/Permission'
 import Home from '../components/Home'
 import Dash from '../components/dash/Index'
+// 权限
 import PermissionList from '../components/permission/List'
 import PermissionCreate from '../components/permission/Create'
+import PermissionEdit from '../components/permission/Edit'
 const Bar = { template: '<div>没有找到路由</div>' }
 const Bar1 = { template: '<div>控制台</div>' }
 const routes = [
@@ -41,6 +43,14 @@ const routes = [
           title: '创建权限'
         },
         name: 'permission.create'
+      },
+      {
+        path: 'permission/:id/edit',
+        component: PermissionEdit,
+        meta: {
+          title: '修改权限'
+        },
+        name: 'permission.edit'
       },
       {
         path: 'error',

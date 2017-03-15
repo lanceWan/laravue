@@ -11,14 +11,19 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     next((vm) => {
-      if (!_.includes(vm.userPermissions,to.name)) {
-        vm.$router.replace('/admin/error');
+      if(vm.loginStatus == '0') {
+        vm.$router.replace('/login')
+      }
+      // 判断权限
+      if (!_.includes(vm.userPermissions,vm.$route.name)) {
+        vm.$router.replace('/admin/error')
       }
     })
   },
   computed: {
     ...mapGetters([
-      'userPermissions'
+      'userPermissions',
+      'loginStatus'
     ])
   },
   methods: {
@@ -30,9 +35,6 @@ export default {
       api.Create(url, params).then(response => {
         tool.notification_success(response.message);
         this.$router.push('/admin/permission');
-      })
-      .catch(error => {
-        tool.notification_error(response.message);
       })
       this.loading = false;
     }

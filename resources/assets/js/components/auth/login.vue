@@ -39,8 +39,8 @@
       };
     },
     beforeRouteEnter (to, from, next) {
-    	next((vm) => {
-        if(vm.loginStatus) {
+      next((vm) => {
+        if(vm.loginStatus == '1') {
           vm.$router.push('/admin')
         }
       })
@@ -52,7 +52,9 @@
 		},
     methods: {
     	...mapActions([
-      'setUserInfo'
+      'setUserInfo',
+      'setLoginStatus',
+      'setUserPermissions'
     	]),
    		submitForm(formName) {
    			var _form = this.form;
@@ -61,7 +63,9 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
 	          api.Login(_form).then(response => {
-              this.setUserInfo(response);
+              this.setUserInfo(response.user);
+              this.setLoginStatus();
+              this.setUserPermissions(response.permissions);
               _this.$router.go('/')
 	          });
           	this.loading = false;

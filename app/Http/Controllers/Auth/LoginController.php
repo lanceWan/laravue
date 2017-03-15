@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     /*
@@ -39,6 +40,17 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        return response()->json($user);
+        $permissions = $user->getPermissions()->pluck('slug')->toJson();
+        return response()->json(compact('user','permissions'));
+    }
+
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->flush();
+
+        $request->session()->regenerate();
+        return response()->json(['message' => 'ok']);
     }
 }

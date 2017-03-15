@@ -3,9 +3,9 @@ import api from '../../utils/http'
 import { AES, enc } from 'crypto-js'
 const state = {
     // 用户登录状态
-    loginStatus: JSON.parse(localStorage.getItem('loginStatus')) || false,
+    loginStatus: localStorage.getItem('loginStatus') || '',
     // 用户登录信息
-    userInfo: JSON.parse(localStorage.getItem('userInfo')) || {},
+    userInfo: localStorage.getItem('userInfo') || '',
     // 用户权限
     userPermissions: localStorage.getItem('userPermissions') || ''
 }
@@ -15,10 +15,15 @@ const actions = {
    * 用户登录
    */
   setUserInfo({ commit }, res) {
-    localStorage.setItem('userInfo', JSON.stringify(res))
-    localStorage.setItem('loginStatus', true)
-    commit(types.SET_USER_INFO, res)
-    commit(types.SET_LOGIN_STATUS, true)
+    var userInfo = AES.encrypt(JSON.stringify(res), types.SECRET_KEY).toString();
+    localStorage.setItem('userInfo', userInfo)
+    commit(types.SET_USER_INFO, userInfo)
+  },
+
+  setLoginStatus({ commit }){
+    var loginStatus = AES.encrypt('1', types.SECRET_KEY).toString()
+    localStorage.setItem('loginStatus', loginStatus)
+    commit(types.SET_LOGIN_STATUS, loginStatus)
   },
 
   /**
@@ -27,25 +32,37 @@ const actions = {
   setSignOut({ commit }) {
     localStorage.removeItem('loginStatus')
     localStorage.removeItem('userInfo')
-    commit(types.SET_LOGIN_STATUS, false)
-    commit(types.SET_USER_INFO, {})
+    localStorage.removeItem('userPermissions')
+    commit(types.SET_LOGIN_STATUS, '')
+    commit(types.SET_USER_INFO, '')
+    commit(types.SET_USER_PERMISSIONS, '')
   },
 
   setUserPermissions({ commit }, res){
-    // console.log(AES.encrypt(JSON.stringify(res), types.SECRET_KEY).toString())
-    var userPermissions = AES.encrypt(JSON.stringify(res), types.SECRET_KEY).toString();
+    var userPermissions = AES.encrypt(res, types.SECRET_KEY).toString();
     localStorage.setItem('userPermissions', userPermissions)
     commit(types.SET_USER_PERMISSIONS, userPermissions)
   },
 }
 
 const getters = {
-  loginStatus: state => state.loginStatus,
-  userInfo: state => state.userInfo,
+  loginStatus: state => {
+    if (!state.loginStatus) {
+      return '0';
+    }
+    return AES.decrypt(state.loginStatus, types.SECRET_KEY).toString(enc.Utf8);
+  },
+  userInfo: state => {
+    if (!state.userInfo) {
+      return '';
+    }
+    return JSON.parse(AES.decrypt(state.userInfo, types.SECRET_KEY).toString(enc.Utf8));
+  },
   userPermissions: state => {
-    // console.log(JSON.parse(AES.decrypt(state.userPermissions, types.SECRET_KEY).toString(enc.Utf8)))
+    if (!state.userPermissions) {
+      return '';
+    }
     return JSON.parse(AES.decrypt(state.userPermissions, types.SECRET_KEY).toString(enc.Utf8));
-    // return JSON.parse(AES.decrypt(state.userPermissions, types.SECRET_KEY))
   }
 }
 
