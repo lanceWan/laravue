@@ -78,8 +78,8 @@ class PermissionController extends Controller
      */
     public function update(PermissionUpdateRequest $request, $id)
     {
-
-        
+        $responseData = $this->service->update($id);
+        return response()->json($responseData,$responseData['status']);
     }
 
 
