@@ -16,64 +16,75 @@ axios.interceptors.response.use(function (response) {
 	return Promise.reject(error);
 });
 
-export function postFetch(url, params) {
+export function postFetch(url, params, method) {
     return new Promise((resolve, reject) => {
-        axios.post(url, params)
-            .then(response => {
-                resolve(response.data);
-            })
-            .catch((error) => {
-                var message = error.message;
-                if (error.response.status == 422) {
-                    for(var i in error.response.data){
-                        message = error.response.data[i][0];
-                    }
+        axios({
+          method: method,
+          url: url,
+          data: params
+        }).then(response => {
+            resolve(response.data);
+        }).catch(error => {
+            var message = error.message;
+            if (error.response.status == 422) {
+                for(var i in error.response.data){
+                    message = error.response.data[i][0];
                 }
-                _.message(message,'error');
-                reject(message)
-            })
+            }
+            _.message(message,'error');
+            reject(message)
+        });
     })
 }
 
 export function getFetch(url, params) {
     return new Promise((resolve, reject) => {
-        axios.get(url, {params: params})
-            .then(response => {
-                resolve(response.data);
-            })
-            .catch((error) => {
-                var message = error.message;
-                if (error.response.status == 500) {
-                    message = error.response.data.message;
+        axios({
+          method: 'get',
+          url: url,
+          params: params
+        }).then(response => {
+            resolve(response.data);
+        }).catch(error => {
+            var message = error.message;
+            if (error.response.status == 422) {
+                for(var i in error.response.data){
+                    message = error.response.data[i][0];
                 }
-                _.message(message,'error');
-                reject(error)
-            })
+            }
+            _.message(message,'error');
+            reject(message)
+        });
     })
 }
 
 export default {
     // 用户登录
     Login(params) {
-        return postFetch('/login', params);
+        return postFetch('/login', params, 'POST');
     },
     // 退出登录
     Logout(){
-        return postFetch('/logout');
+        return postFetch('/logout', {}, 'POST');
     },
     // 数据列表
     DataList(url, params){
-        return getFetch(url,params);
+        return getFetch(url, params);
     },
-    // 获取用户权限
-    GetPermissions(){
-        return getFetch('/api/admin/userPermission');
-    },
+    // 添加数据
     Create(url, params){
-        return postFetch(url, params);
+        return postFetch(url, params, 'POST');
     },
+    // 修改页面获取数据
     Edit(url, params){
-       return getFetch(url, params); 
+        return getFetch(url, params);
+    },
+    // 修改数据
+    Update(url, params){
+        return postFetch(url, params, 'PUT');
+    },
+    Destroy(url,params){
+        return postFetch(url, params, 'DELETE');
     }
     
 }

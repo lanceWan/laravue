@@ -23,8 +23,9 @@
 			  		<el-col :span="4">
 			  			<el-input v-model="pagination.search" placeholder="请输入内容"></el-input>
 			  		</el-col>
-			  		<el-col :span="4">
+			  		<el-col :span="8">
 			  			<el-button type="info" icon="search" @click="handleSearch">搜索</el-button>
+			  			<el-button v-if="showDestroy" type="danger" icon="delete" @click="handleMultipleDestroy">删除</el-button>
 			  		</el-col>
 			  	</el-row>
 			  	<el-row>
@@ -32,9 +33,10 @@
 					  	<el-table
 						    :data="tableData"
 						    border
-						    @sort-change="handleSortChange"
 						    v-loading="loading"
 		    				element-loading-text="拼命加载中..."
+						    @sort-change="handleSortChange"
+						    @selection-change="handleSelectionChange"
 						    style="width: 100%">
 						    <el-table-column
 						      type="selection"
@@ -71,8 +73,8 @@
 						      label="操作"
 						      width="120">
 						      <template scope="scope">
-					        	<el-button type="success" size="small" icon="edit" @click="handleEdit('permission.edit',scope.row)"></el-button>
-					        	<el-button type="danger" size="small" icon="delete"></el-button>
+					        	<el-button v-if="hasPermission('permission.edit')" type="success" size="small" icon="edit" @click="handleEdit('permission.edit',scope.row)"></el-button>
+					        	<el-button v-if="hasPermission('permission.destroy')" type="danger" size="small" icon="delete" @click="handleDestroy(scope.row.id)"></el-button>
 						      </template>
 						    </el-table-column>
 						  </el-table>
@@ -102,11 +104,12 @@
 		mixins: [list],
 		data() {
       return {
-      	apiUrl: '/api/admin/permission'
+      	apiUrl: '/api/admin/permission',
+      	redirectUrl: {name: 'permission.index'},
       }
     },
     created() {
-    	this.dataList(this.apiUrl, this.pagination);
+    	this.dataList();
     }
 	}
 </script>

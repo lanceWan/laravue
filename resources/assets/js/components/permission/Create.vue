@@ -53,9 +53,10 @@
 	</div>
 </template>
 <script>
-	import mixin from '../../mixins/create'
+	import create from '../../mixins/create'
+	import common from '../../mixins/common'
   export default {
-  	mixins: [mixin],
+  	mixins: [create,common],
     data() {
       return {
         ruleForm: {

@@ -4,6 +4,7 @@ use App\Repositories\Eloquent\PermissionRepositoryEloquent;
 use App\Repositories\Criteria\SearchCriteria;
 use App\Repositories\Criteria\OrderByCriteria;
 use App\Repositories\Criteria\PaginationCriteria;
+use App\Repositories\Criteria\DestroyByIdsCriteria;
 use Exception;
 class PermissionService
 {
@@ -126,11 +127,72 @@ class PermissionService
 			'message' => 'ok',
 		];
 		try {
-			$responseData['permission'] = $this->permissionRepo->skipPresenter()->find($id,['name','slug','description']);
+			$responseData['permission'] = $this->permissionRepo->skipPresenter()->find($id,['id','name','slug','description']);
 		} catch (Exception $e) {
 			$responseData['code'] = 1004;
 			$responseData['status'] = 500;
 			$responseData['message'] = 'error:edit-获取权限数据失败';
+		}
+		return $responseData;
+	}
+
+	/**
+	 * 修改权限数据
+	 * @author 晚黎
+	 * @date   2017-03-16T10:36:52+0800
+	 * @param  [type]                   $attributes [description]
+	 * @param  [type]                   $id         [description]
+	 * @return [type]                               [description]
+	 */
+	public function update($attributes,$id)
+	{
+		$responseData = [
+			'code' => 0,
+			'status' => 200,
+			'message' => 'ok',
+		];
+		try {
+			$isUpdate = $this->permissionRepo->update($attributes,$id);
+			if ($isUpdate) {
+				$responseData['message'] = '修改权限成功';
+			}
+		} catch (Exception $e) {
+			$responseData['code'] = 1005;
+			$responseData['status'] = 500;
+			$responseData['message'] = 'error:update-修改权限数据失败';
+		}
+		return $responseData;
+	}
+	/**
+	 * 删除数据
+	 * @author 晚黎
+	 * @date   2017-03-16T10:59:17+0800
+	 * @param  [type]                   $id [description]
+	 * @return [type]                       [description]
+	 */
+	public function destroy($id)
+	{
+		$responseData = [
+			'code' => 0,
+			'status' => 200,
+			'message' => 'ok',
+		];
+		try {
+			$multiple = request('multiple', false);
+			// 批量删除
+			if ($multiple) {
+				$isDestroy = $this->permissionRepo->multipleDestroy(explode(',', $id));
+			}else{
+				$isDestroy = $this->permissionRepo->delete($id);
+			}
+			if ($isDestroy) {
+				$responseData['message'] = '删除权限成功';
+			}
+		} catch (Exception $e) {
+			dd($e);
+			$responseData['code'] = 1006;
+			$responseData['status'] = 500;
+			$responseData['message'] = 'error:destroy-删除权限数据失败';
 		}
 		return $responseData;
 	}

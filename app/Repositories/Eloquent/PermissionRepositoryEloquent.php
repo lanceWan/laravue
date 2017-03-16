@@ -35,4 +35,9 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
     {
         return PermissionPresenter::class;
     }
+
+    public function multipleDestroy($ids)
+    {
+        return $this->model->destroy($ids);
+    }
 }

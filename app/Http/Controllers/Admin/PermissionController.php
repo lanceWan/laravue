@@ -78,7 +78,7 @@ class PermissionController extends Controller
      */
     public function update(PermissionUpdateRequest $request, $id)
     {
-        $responseData = $this->service->update($id);
+        $responseData = $this->service->update($request->all(),$id);
         return response()->json($responseData,$responseData['status']);
     }
 
@@ -92,7 +92,8 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        
+        $responseData = $this->service->destroy($id);
+        return response()->json($responseData,$responseData['status']);
     }
 
     /**

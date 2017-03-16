@@ -1,5 +1,6 @@
 import * as _ from 'lodash'
 import api from '../utils/http'
+import * as tool from '../utils/tool'
 import { mapGetters } from 'vuex'
 import { mapActions } from 'vuex'
 export default {
@@ -14,7 +15,9 @@ export default {
         search: ''
       },
       total: 0,
-      loading:false
+      loading:false,
+      showDestroy: false,
+      multipleSelection: []
     }
   },
   beforeRouteEnter (to, from, next) {
@@ -41,18 +44,18 @@ export default {
     // 每页数量变化
     handleSizeChange(val) {
       this.pagination.pageSize = val;
-      this.dataList(this.apiUrl, this.pagination);
+      this.dataList();
     },
     // 分页
     handleCurrentChange(val) {
       this.pagination.currentPage = val;
-      this.dataList(this.apiUrl, this.pagination);
+      this.dataList();
     },
     // 列表数据
-    dataList(url, params){
+    dataList(){
       if (this.loginStatus == '1' && this.hasPermission(this.$route.name)) {
         this.loading = true;
-        api.DataList(url, params).then(response => {
+        api.DataList(this.apiUrl, this.pagination).then(response => {
           this.total = response.total;
           this.tableData = response.permissions;
           this.loading = false;
@@ -65,22 +68,46 @@ export default {
     handleSortChange(val){
       this.pagination.column = val.prop;
       this.pagination.order = val.order;
-      this.dataList(this.apiUrl, this.pagination);
+      this.dataList();
     },
     // 搜索
     handleSearch(){
-      this.dataList(this.apiUrl, this.pagination);
+      this.dataList();
+    },
+    handleSelectionChange(val){
+      if (val.length > 0) {
+        this.multipleSelection = _.map(val,'id');
+        this.showDestroy = true
+      }else{
+        this.showDestroy = false
+      }
     },
     // 判断访问权限
     hasPermission(permission){
-      if (_.includes(this.userPermissions,permission)) {
-        return true;
-      }
-      return false;
+      return _.includes(this.userPermissions,permission) ? true:false;
     },
     // 修改
     handleEdit(routrName, row){
       this.$router.push({name: routrName, params: { id: row.id }});
+    },
+    // 删除
+    handleDestroy(id){
+      tool.confirm('确定删除数据？', '警告', 'danger').then(() => {
+        api.Destroy(this.apiUrl+'/'+id).then(response => {
+          tool.notification_success(response.message);
+          this.dataList();
+        });
+      });
+    },
+    // 批量删除
+    handleMultipleDestroy(){
+      tool.confirm('确定删除数据？', '警告', 'danger').then(() => {
+        api.Destroy(this.apiUrl+'/'+ _.join(this.multipleSelection,','),{multiple: true}).then(response => {
+          tool.notification_success(response.message);
+          this.multipleSelection = [];
+          this.dataList();
+        });
+      });
     }
   }
 }

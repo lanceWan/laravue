@@ -53,14 +53,16 @@
 	</div>
 </template>
 <script>
-	import mixin from '../../mixins/create'
+	import edit from '../../mixins/edit'
+	import common from '../../mixins/common'
 	import api from '../../utils/http'
 	import * as _ from '../../utils/tool'
   export default {
-  	mixins: [mixin],
+  	mixins: [common, edit],
     data() {
       return {
         ruleForm: {
+        	id: '',
           name: '',
           slug: '',
           description: '',
@@ -73,7 +75,8 @@
           slug: [
             { required: true, message: '权限不能为空', trigger: 'blur' }
           ],
-        }
+        },
+        apiUrl:'/api/admin/permission/'+this.$route.params.id
       };
     },
     methods: {
@@ -81,24 +84,17 @@
       	var _this = this;
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            
+            this.edit({name: 'permission.index'});
           }
         });
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
       },
-      getPermission(){
-      	api.Edit('/api'+this.$route.path).then(response => {
-      		this.ruleForm = response.permission
-      	}).catch(error => {
-      		_.notification_error(error.response.data.message)
-      		this.$router.push({name: 'permission.index'})
-      	})
-      }
+      
     },
     created() {
-    	this.getPermission()
+    	this.getEidtData()
     }
   }
 </script>
