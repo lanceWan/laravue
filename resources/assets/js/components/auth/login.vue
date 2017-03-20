@@ -63,8 +63,8 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
 	          api.Login(_form).then(response => {
-              this.setUserInfo(response.user);
               this.setLoginStatus();
+              this.setUserInfo(response.user);
               this.setUserPermissions(response.permissions);
               _this.$router.push('/admin')
 	          });

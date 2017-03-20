@@ -31,10 +31,10 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
         $this->pushCriteria(app(RequestCriteria::class));
     }
 
-    public function presenter()
-    {
-        return PermissionPresenter::class;
-    }
+    // public function presenter()
+    // {
+    //     return PermissionPresenter::class;
+    // }
 
     public function multipleDestroy($ids)
     {

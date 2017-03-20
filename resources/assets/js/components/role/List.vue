@@ -10,7 +10,7 @@
 				</el-breadcrumb>
 			</el-col>
 			<el-col :span="16" class="title-action">
-				<el-button type="info" icon="plus" v-if="hasPermission('permission.create')" @click="$router.push('/admin/permission/create')">创建权限</el-button>
+				<el-button type="info" icon="plus" v-if="hasPermission('role.create')" @click="$router.push('/admin/role/create')">创建角色</el-button>
 			</el-col>
 		</el-row>
 		<el-col :span="24" class="content-wrapper">
@@ -73,8 +73,8 @@
 						      label="操作"
 						      width="120">
 						      <template scope="scope">
-					        	<el-button v-if="hasPermission('permission.edit')" type="success" size="small" icon="edit" @click="handleEdit('permission.edit',scope.row)"></el-button>
-					        	<el-button v-if="hasPermission('permission.destroy')" type="danger" size="small" icon="delete" @click="handleDestroy(scope.row.id)"></el-button>
+					        	<el-button v-if="hasPermission('role.edit')" type="success" size="small" icon="edit" @click="handleEdit('role.edit',scope.row)"></el-button>
+					        	<el-button v-if="hasPermission('role.destroy')" type="danger" size="small" icon="delete" @click="handleDestroy(scope.row.id)"></el-button>
 						      </template>
 						    </el-table-column>
 						  </el-table>
@@ -104,8 +104,8 @@
 		mixins: [list],
 		data() {
       return {
-      	apiUrl: '/api/admin/permission',
-      	redirectUrl: {name: 'permission.index'},
+      	apiUrl: '/api/admin/role',
+      	redirectUrl: {name: 'role.index'},
       }
     },
     created() {

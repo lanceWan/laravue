@@ -5,7 +5,7 @@ use App\Http\Requests;
 use App\Http\Requests\RoleCreateRequest;
 use App\Http\Requests\RoleUpdateRequest;
 use App\Services\Admin\RoleService;
-
+use App\Http\Controllers\Controller;
 class RoleController extends Controller
 {
     
@@ -25,6 +25,12 @@ class RoleController extends Controller
     public function index()
     {
         $responseData = $this->service->index();
+        return response()->json($responseData,$responseData['status']);
+    }
+
+    public function create()
+    {
+        $responseData = $this->service->create();
         return response()->json($responseData,$responseData['status']);
     }
 

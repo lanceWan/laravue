@@ -71,8 +71,12 @@ export default {
     DataList(url, params){
         return getFetch(url, params);
     },
-    // 添加数据
+    // 添加页面
     Create(url, params){
+        return getFetch(url, params);
+    },
+    // 添加数据
+    Store(url, params){
         return postFetch(url, params, 'POST');
     },
     // 修改页面获取数据

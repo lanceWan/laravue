@@ -13023,8 +13023,13 @@ function getFetch(url, params) {
         return getFetch(url, params);
     },
 
-    // 添加数据
+    // 添加页面
     Create: function Create(url, params) {
+        return getFetch(url, params);
+    },
+
+    // 添加数据
+    Store: function Store(url, params) {
         return postFetch(url, params, 'POST');
     },
 
@@ -13050,8 +13055,8 @@ function getFetch(url, params) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_element_ui__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_element_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_element_ui__);
 /* harmony export (immutable) */ __webpack_exports__["a"] = message;
-/* harmony export (immutable) */ __webpack_exports__["b"] = confirm;
-/* harmony export (immutable) */ __webpack_exports__["c"] = notification_success;
+/* harmony export (immutable) */ __webpack_exports__["c"] = confirm;
+/* harmony export (immutable) */ __webpack_exports__["b"] = notification_success;
 /* unused harmony export notification_error */
 
 /**
@@ -60487,7 +60492,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         this.loading = true;
         __WEBPACK_IMPORTED_MODULE_1__utils_http__["a" /* default */].DataList(this.apiUrl, this.pagination).then(function (response) {
           _this.total = response.total;
-          _this.tableData = response.permissions;
+          _this.tableData = response.results;
           _this.loading = false;
         }).catch(function (error) {
           _this.loading = false;
@@ -60529,9 +60534,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     handleDestroy: function handleDestroy(id) {
       var _this2 = this;
 
-      __WEBPACK_IMPORTED_MODULE_2__utils_tool__["b" /* confirm */]('确定删除数据？', '警告', 'danger').then(function () {
+      __WEBPACK_IMPORTED_MODULE_2__utils_tool__["c" /* confirm */]('确定删除数据？', '警告', 'danger').then(function () {
         __WEBPACK_IMPORTED_MODULE_1__utils_http__["a" /* default */].Destroy(_this2.apiUrl + '/' + id).then(function (response) {
-          __WEBPACK_IMPORTED_MODULE_2__utils_tool__["c" /* notification_success */](response.message);
+          __WEBPACK_IMPORTED_MODULE_2__utils_tool__["b" /* notification_success */](response.message);
           _this2.dataList();
         });
       });
@@ -60541,9 +60546,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     handleMultipleDestroy: function handleMultipleDestroy() {
       var _this3 = this;
 
-      __WEBPACK_IMPORTED_MODULE_2__utils_tool__["b" /* confirm */]('确定删除数据？', '警告', 'danger').then(function () {
+      __WEBPACK_IMPORTED_MODULE_2__utils_tool__["c" /* confirm */]('确定删除数据？', '警告', 'danger').then(function () {
         __WEBPACK_IMPORTED_MODULE_1__utils_http__["a" /* default */].Destroy(_this3.apiUrl + '/' + __WEBPACK_IMPORTED_MODULE_0_lodash__["join"](_this3.multipleSelection, ','), { multiple: true }).then(function (response) {
-          __WEBPACK_IMPORTED_MODULE_2__utils_tool__["c" /* notification_success */](response.message);
+          __WEBPACK_IMPORTED_MODULE_2__utils_tool__["b" /* notification_success */](response.message);
           _this3.multipleSelection = [];
           _this3.dataList();
         });
@@ -69861,17 +69866,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "span": 16
     }
-  }, [(_vm.hasPermission('permission.create')) ? _c('el-button', {
+  }, [(_vm.hasPermission('role.create')) ? _c('el-button', {
     attrs: {
       "type": "info",
       "icon": "plus"
     },
     on: {
       "click": function($event) {
-        _vm.$router.push('/admin/permission/create')
+        _vm.$router.push('/admin/role/create')
       }
     }
-  }, [_vm._v("创建权限")]) : _vm._e()], 1)], 1), _vm._v(" "), _c('el-col', {
+  }, [_vm._v("创建角色")]) : _vm._e()], 1)], 1), _vm._v(" "), _c('el-col', {
     staticClass: "content-wrapper",
     attrs: {
       "span": 24
@@ -69989,7 +69994,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     scopedSlots: _vm._u([
       ["default", function(scope) {
-        return [(_vm.hasPermission('permission.edit')) ? _c('el-button', {
+        return [(_vm.hasPermission('role.edit')) ? _c('el-button', {
           attrs: {
             "type": "success",
             "size": "small",
@@ -69997,10 +70002,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           },
           on: {
             "click": function($event) {
-              _vm.handleEdit('permission.edit', scope.row)
+              _vm.handleEdit('role.edit', scope.row)
             }
           }
-        }) : _vm._e(), _vm._v(" "), (_vm.hasPermission('permission.destroy')) ? _c('el-button', {
+        }) : _vm._e(), _vm._v(" "), (_vm.hasPermission('role.destroy')) ? _c('el-button', {
           attrs: {
             "type": "danger",
             "size": "small",
@@ -70502,7 +70507,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        _vm.$router.go('-1')
+        _vm.$router.go(-1)
       }
     }
   }, [_vm._v("返回")])], 1)], 1), _vm._v(" "), _c('el-col', {
@@ -76730,7 +76735,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 		logout: function logout() {
 			var _this = this;
 
-			__WEBPACK_IMPORTED_MODULE_0__utils_tool__["b" /* confirm */]('确认退出吗？', '提示', 'warning').then(function () {
+			__WEBPACK_IMPORTED_MODULE_0__utils_tool__["c" /* confirm */]('确认退出吗？', '提示', 'warning').then(function () {
 				__WEBPACK_IMPORTED_MODULE_1__utils_http__["a" /* default */].Logout().then(function (response) {
 					_this.setSignOut();
 					_this.$router.go('/');
@@ -76812,8 +76817,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       this.$refs[formName].validate(function (valid) {
         if (valid) {
           __WEBPACK_IMPORTED_MODULE_1__utils_http__["a" /* default */].Login(_form).then(function (response) {
-            _this2.setUserInfo(response.user);
             _this2.setLoginStatus();
+            _this2.setUserInfo(response.user);
             _this2.setUserPermissions(response.permissions);
             _this.$router.push('/admin');
           });
@@ -76899,6 +76904,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         description: ''
       },
       labelPosition: 'right',
+      redirectUrl: { name: 'permission.index' },
       rules: {
         name: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
         slug: [{ required: true, message: '权限不能为空', trigger: 'blur' }]
@@ -76911,7 +76917,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this = this;
       this.$refs[formName].validate(function (valid) {
         if (valid) {
-          _this.create('/api/admin/permission', _this.ruleForm);
+          _this.store('/api/admin/permission', _this.ruleForm);
         }
       });
     },
@@ -77264,8 +77270,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_list__["a" /* default */]],
   data: function data() {
     return {
-      apiUrl: '/api/admin/permission',
-      redirectUrl: { name: 'permission.index' }
+      apiUrl: '/api/admin/role',
+      redirectUrl: { name: 'role.index' }
     };
   },
   created: function created() {
@@ -77290,15 +77296,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   methods: {
-    create: function create(url, params) {
+    store: function store(url, params) {
       var _this = this;
 
       this.loading = true;
-      __WEBPACK_IMPORTED_MODULE_0__utils_http__["a" /* default */].Create(url, params).then(function (response) {
-        __WEBPACK_IMPORTED_MODULE_1__utils_tool__["c" /* notification_success */](response.message);
-        _this.$router.push('/admin/permission');
+      __WEBPACK_IMPORTED_MODULE_0__utils_http__["a" /* default */].Store(url, params).then(function (response) {
+        __WEBPACK_IMPORTED_MODULE_1__utils_tool__["b" /* notification_success */](response.message);
+        _this.$router.push(_this.redirectUrl);
       });
       this.loading = false;
+    },
+    create: function create() {
+      var _this2 = this;
+
+      __WEBPACK_IMPORTED_MODULE_0__utils_http__["a" /* default */].Create(this.apiUrl + 'create').then(function (response) {
+        console.log(response.results);
+        console.log(_this2.data2);
+        _this2.data = response.results;
+      });
     }
   }
 };
@@ -77325,7 +77340,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       this.loading = true;
       __WEBPACK_IMPORTED_MODULE_0__utils_http__["a" /* default */].Update(this.apiUrl, this.ruleForm).then(function (response) {
-        __WEBPACK_IMPORTED_MODULE_1__utils_tool__["c" /* notification_success */](response.message);
+        __WEBPACK_IMPORTED_MODULE_1__utils_tool__["b" /* notification_success */](response.message);
         _this.$router.push(redirectUrl);
       });
       this.loading = false;
@@ -77364,6 +77379,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_permission_Edit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_permission_Edit__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_role_List__ = __webpack_require__(129);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_role_List___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_role_List__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_role_Create__ = __webpack_require__(190);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_role_Create___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_role_Create__);
 
 
 
@@ -77373,6 +77390,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 // 角色
+
 
 var Bar = { template: '<div>没有找到路由</div>' };
 var Bar1 = { template: '<div>控制台</div>' };
@@ -77419,7 +77437,14 @@ var routes = [{
     meta: {
       title: '角色'
     },
-    name: 'permission.index'
+    name: 'role.index'
+  }, {
+    path: 'role/create',
+    component: __WEBPACK_IMPORTED_MODULE_8__components_role_Create___default.a,
+    meta: {
+      title: '创建角色'
+    },
+    name: 'role.create'
   }, {
     path: 'error',
     component: __WEBPACK_IMPORTED_MODULE_1__components_error_Permission___default.a
@@ -77588,6 +77613,463 @@ var GET_USER_PERMISSIONS = 'GET_USER_PERMISSIONS'; //获取用户权限
 
 module.exports = __webpack_require__(51);
 
+
+/***/ }),
+/* 189 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(7)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.ibox-tools{\n\t\tmargin-bottom: 20px;\n    text-align: center;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 190 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(192)
+
+var Component = __webpack_require__(6)(
+  /* script */
+  __webpack_require__(193),
+  /* template */
+  __webpack_require__(191),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\phpStudy\\WWW\\laravue\\resources\\assets\\js\\components\\role\\Create.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Create.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5c3d991b", Component.options)
+  } else {
+    hotAPI.reload("data-v-5c3d991b", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 191 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "grid-content bg-purple-light"
+  }, [_c('el-row', {
+    staticClass: "header"
+  }, [_c('el-col', {
+    staticClass: "breadcrumb-container",
+    attrs: {
+      "span": 8
+    }
+  }, [_c('h3', {
+    staticClass: "title"
+  }, [_vm._v(_vm._s(_vm.$route.meta.title))]), _vm._v(" "), _c('el-breadcrumb', {
+    staticClass: "breadcrumb-inner",
+    attrs: {
+      "separator": "/"
+    }
+  }, _vm._l((_vm.$route.matched), function(item) {
+    return _c('el-breadcrumb-item', {
+      key: item.path,
+      attrs: {
+        "to": {
+          path: item.path
+        }
+      }
+    }, [_vm._v("\n\t\t\t\t\t" + _vm._s(item.meta.title) + "\n\t\t\t\t")])
+  }))], 1), _vm._v(" "), _c('el-col', {
+    staticClass: "title-action",
+    attrs: {
+      "span": 16
+    }
+  }, [_c('el-button', {
+    attrs: {
+      "icon": "arrow-left"
+    },
+    on: {
+      "click": function($event) {
+        _vm.$router.go(-1)
+      }
+    }
+  }, [_vm._v("返回")])], 1)], 1), _vm._v(" "), _c('el-col', {
+    staticClass: "content-wrapper",
+    attrs: {
+      "span": 24
+    }
+  }, [_c('div', {
+    staticClass: "ibox"
+  }, [_c('div', {
+    staticClass: "ibox-title"
+  }, [_c('h5', [_vm._v(_vm._s(_vm.$route.meta.title))])]), _vm._v(" "), _c('div', {
+    staticClass: "ibox-content"
+  }, [_c('el-row', {
+    attrs: {
+      "type": "flex",
+      "justify": "center"
+    }
+  }, [_c('el-col', {
+    staticClass: "ibox-tools",
+    attrs: {
+      "span": 6
+    }
+  }, [_c('el-radio-group', {
+    staticClass: "labelPosition",
+    attrs: {
+      "size": "small"
+    },
+    model: {
+      value: (_vm.labelPosition),
+      callback: function($$v) {
+        _vm.labelPosition = $$v
+      }
+    }
+  }, [_c('el-radio-button', {
+    attrs: {
+      "label": "left"
+    }
+  }, [_vm._v("左对齐")]), _vm._v(" "), _c('el-radio-button', {
+    attrs: {
+      "label": "right"
+    }
+  }, [_vm._v("右对齐")]), _vm._v(" "), _c('el-radio-button', {
+    attrs: {
+      "label": "top"
+    }
+  }, [_vm._v("顶部对齐")])], 1)], 1)], 1), _vm._v(" "), _c('el-row', {
+    attrs: {
+      "type": "flex",
+      "justify": "center"
+    }
+  }, [_c('el-col', {
+    attrs: {
+      "span": 20
+    }
+  }, [_c('el-form', {
+    ref: "ruleForm",
+    staticClass: "demo-ruleForm",
+    attrs: {
+      "model": _vm.ruleForm,
+      "label-position": _vm.labelPosition,
+      "label-width": "13%",
+      "rules": _vm.rules
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "名称",
+      "prop": "name"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "placeholder": "名称"
+    },
+    model: {
+      value: (_vm.ruleForm.name),
+      callback: function($$v) {
+        _vm.ruleForm.name = $$v
+      }
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "角色",
+      "prop": "slug"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "placeholder": "角色"
+    },
+    model: {
+      value: (_vm.ruleForm.slug),
+      callback: function($$v) {
+        _vm.ruleForm.slug = $$v
+      }
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "描述",
+      "prop": "description"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "type": "textarea",
+      "autosize": {
+        minRows: 2,
+        maxRows: 4
+      },
+      "placeholder": "角色描述"
+    },
+    model: {
+      value: (_vm.ruleForm.description),
+      callback: function($$v) {
+        _vm.ruleForm.description = $$v
+      }
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "角色权限",
+      "prop": "description"
+    }
+  }, [_vm._v("\n\t\t\t\t\t\t  \t" + _vm._s(_vm.data2) + "\n\t\t\t\t\t\t    "), _c('el-tree', {
+    ref: "tree",
+    attrs: {
+      "data": _vm.data2,
+      "show-checkbox": "",
+      "node-key": "id",
+      "highlight-current": "",
+      "props": _vm.defaultProps
+    }
+  }), _vm._v("\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.data) + "\n\n\t\t\t\t\t\t\t\t"), _c('div', {
+    staticClass: "buttons"
+  }, [_c('el-button', {
+    on: {
+      "click": _vm.getCheckedNodes
+    }
+  }, [_vm._v("通过 node 获取")]), _vm._v(" "), _c('el-button', {
+    on: {
+      "click": _vm.getCheckedKeys
+    }
+  }, [_vm._v("通过 key 获取")]), _vm._v(" "), _c('el-button', {
+    on: {
+      "click": _vm.setCheckedNodes
+    }
+  }, [_vm._v("通过 node 设置")]), _vm._v(" "), _c('el-button', {
+    on: {
+      "click": _vm.setCheckedKeys
+    }
+  }, [_vm._v("通过 key 设置")]), _vm._v(" "), _c('el-button', {
+    on: {
+      "click": _vm.resetChecked
+    }
+  }, [_vm._v("清空")])], 1)], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    attrs: {
+      "type": "primary",
+      "loading": _vm.loading
+    },
+    on: {
+      "click": function($event) {
+        _vm.submitForm('ruleForm')
+      }
+    }
+  }, [_vm._v("立即创建")]), _vm._v(" "), _c('el-button', {
+    on: {
+      "click": function($event) {
+        _vm.resetForm('ruleForm')
+      }
+    }
+  }, [_vm._v("重置")])], 1)], 1)], 1)], 1)], 1)])])], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-5c3d991b", module.exports)
+  }
+}
+
+/***/ }),
+/* 192 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(189);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(10)("6cedab7b", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/.0.26.2@css-loader/index.js!../../../../../node_modules/.11.1.4@vue-loader/lib/style-rewriter.js?{\"id\":\"data-v-5c3d991b\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/.11.1.4@vue-loader/lib/selector.js?type=styles&index=0!./Create.vue", function() {
+     var newContent = require("!!../../../../../node_modules/.0.26.2@css-loader/index.js!../../../../../node_modules/.11.1.4@vue-loader/lib/style-rewriter.js?{\"id\":\"data-v-5c3d991b\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/.11.1.4@vue-loader/lib/selector.js?type=styles&index=0!./Create.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 193 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_common__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_create__ = __webpack_require__(182);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+  mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins_create__["a" /* default */], __WEBPACK_IMPORTED_MODULE_0__mixins_common__["a" /* default */]],
+  data: function data() {
+    return {
+      labelPosition: 'right',
+      apiUrl: '/api/admin/role/',
+      redirectUrl: { name: 'route.index' },
+      ruleForm: {
+        name: '',
+        slug: '',
+        description: ''
+      },
+      rules: {
+        name: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
+        slug: [{ required: true, message: '权限不能为空', trigger: 'blur' }]
+      },
+      data2: [{
+        label: "system",
+        childen: [{
+          id: 1,
+          label: "登录后台权限 system.login"
+        }, {
+          id: 2,
+          label: "后台首页 system.index"
+        }, {
+          id: 3,
+          label: "系统管理 system.manage"
+        }]
+      }],
+      data: [],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      }
+    };
+  },
+
+  methods: {
+    submitForm: function submitForm(formName) {
+      var _this = this;
+      this.$refs[formName].validate(function (valid) {
+        if (valid) {
+          _this.store('/api/admin/role', _this.ruleForm);
+        }
+      });
+    },
+    resetForm: function resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
+    getCheckedNodes: function getCheckedNodes() {
+      console.log(this.$refs.tree.getCheckedNodes());
+    },
+    getCheckedKeys: function getCheckedKeys() {
+      console.log(this.$refs.tree.getCheckedKeys());
+    },
+    setCheckedNodes: function setCheckedNodes() {
+      this.$refs.tree.setCheckedNodes([{
+        id: 5,
+        label: '二级 2-1'
+      }, {
+        id: 9,
+        label: '三级 1-1-1'
+      }]);
+    },
+    setCheckedKeys: function setCheckedKeys() {
+      this.$refs.tree.setCheckedKeys([3]);
+    },
+    resetChecked: function resetChecked() {
+      this.$refs.tree.setCheckedKeys([]);
+    }
+  },
+  created: function created() {
+    this.create();
+  }
+};
 
 /***/ })
 /******/ ]);

@@ -22,4 +22,5 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
 	// 权限
 	$router->get('userPermission','PermissionController@getUserPermissions')->name('user.info');
 	$router->resource('permission','PermissionController');
+	$router->resource('role','RoleController');
 });

@@ -34,11 +34,31 @@
 							  <el-form-item label="名称" prop="name">
 							    <el-input v-model="ruleForm.name" placeholder="名称"></el-input>
 							  </el-form-item>
-							  <el-form-item label="权限" prop="slug">
-							    <el-input v-model="ruleForm.slug" placeholder="权限"></el-input>
+							  <el-form-item label="角色" prop="slug">
+							    <el-input v-model="ruleForm.slug" placeholder="角色"></el-input>
 							  </el-form-item>
 							  <el-form-item label="描述" prop="description">
-							    <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="权限描述" v-model="ruleForm.description"></el-input>
+							    <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="角色描述" v-model="ruleForm.description"></el-input>
+							  </el-form-item>
+							  <el-form-item label="角色权限" prop="description">
+							  	{{data2}}
+							    <el-tree
+									  :data="data2"
+									  show-checkbox
+									  node-key="id"
+									  ref="tree"
+									  highlight-current
+									  :props="defaultProps">
+									</el-tree>
+									{{data}}
+
+									<div class="buttons">
+									  <el-button @click="getCheckedNodes">通过 node 获取</el-button>
+									  <el-button @click="getCheckedKeys">通过 key 获取</el-button>
+									  <el-button @click="setCheckedNodes">通过 node 设置</el-button>
+									  <el-button @click="setCheckedKeys">通过 key 设置</el-button>
+									  <el-button @click="resetChecked">清空</el-button>
+									</div>
 							  </el-form-item>
 							  <el-form-item>
 							    <el-button type="primary" :loading="loading" @click="submitForm('ruleForm')">立即创建</el-button>
@@ -53,19 +73,20 @@
 	</div>
 </template>
 <script>
-	import create from '../../mixins/create'
 	import common from '../../mixins/common'
+	import create from '../../mixins/create'
   export default {
   	mixins: [create,common],
     data() {
       return {
+        labelPosition: 'right',
+        apiUrl: '/api/admin/role/',
+        redirectUrl: {name: 'route.index'},
         ruleForm: {
           name: '',
           slug: '',
           description: '',
         },
-        labelPosition: 'right',
-        redirectUrl: {name: 'permission.index'},
         rules: {
           name: [
             { required: true, message: '名称不能为空', trigger: 'blur' }
@@ -73,6 +94,29 @@
           slug: [
             { required: true, message: '权限不能为空', trigger: 'blur' }
           ],
+        },
+        data2: [{
+			        label: "system",
+			        childen: [
+			            {
+			                id: 1,
+			                label: "登录后台权限 system.login"
+			            },
+			            {
+			                id: 2,
+			                label: "后台首页 system.index"
+			            },
+			            {
+			                id: 3,
+			                label: "系统管理 system.manage"
+			            }
+			        ]
+			    },
+		    ],
+        data: [],
+        defaultProps: {
+          children: 'children',
+          label: 'label'
         }
       };
     },
@@ -81,13 +125,37 @@
       	var _this = this;
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            _this.store('/api/admin/permission',_this.ruleForm);
+            _this.store('/api/admin/role',_this.ruleForm);
           }
         });
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      },
+      getCheckedNodes() {
+        console.log(this.$refs.tree.getCheckedNodes());
+      },
+      getCheckedKeys() {
+        console.log(this.$refs.tree.getCheckedKeys());
+      },
+      setCheckedNodes() {
+        this.$refs.tree.setCheckedNodes([{
+          id: 5,
+          label: '二级 2-1'
+        }, {
+          id: 9,
+          label: '三级 1-1-1'
+        }]);
+      },
+      setCheckedKeys() {
+        this.$refs.tree.setCheckedKeys([3]);
+      },
+      resetChecked() {
+        this.$refs.tree.setCheckedKeys([]);
       }
+    },
+    created() {
+    	this.create();
     }
   }
 </script>

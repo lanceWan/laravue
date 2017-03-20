@@ -48,7 +48,7 @@ class PermissionService
 			$permissions = $this->permissionRepo->orderBy($column,$order)->skipPresenter(false)->all();
 
 			$responseData['total'] = $total;
-			$responseData['permissions'] = $permissions['data'];
+			$responseData['results'] = $permissions;
 
 		} catch (Exception $e) {
 			$responseData['code'] = 1001;

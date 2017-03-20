@@ -57,7 +57,7 @@ export default {
         this.loading = true;
         api.DataList(this.apiUrl, this.pagination).then(response => {
           this.total = response.total;
-          this.tableData = response.permissions;
+          this.tableData = response.results;
           this.loading = false;
         }).catch(error => {
           this.loading = false;
