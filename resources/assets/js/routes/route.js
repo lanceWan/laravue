@@ -6,12 +6,14 @@ import Dash from '../components/dash/Index'
 import PermissionList from '../components/permission/List'
 import PermissionCreate from '../components/permission/Create'
 import PermissionEdit from '../components/permission/Edit'
+// 角色
+import RoleList from '../components/role/List'
 const Bar = { template: '<div>没有找到路由</div>' }
 const Bar1 = { template: '<div>控制台</div>' }
 const routes = [
 	{
   	path: '/',
-  	redirect: '/admin'
+  	redirect: '/login'
   },
 	{
   	path: '/admin',
@@ -51,6 +53,14 @@ const routes = [
           title: '修改权限'
         },
         name: 'permission.edit'
+      },
+      {
+        path: 'role',
+        component: RoleList,
+        meta: {
+          title: '角色'
+        },
+        name: 'permission.index'
       },
       {
         path: 'error',
