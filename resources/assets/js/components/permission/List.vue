@@ -158,7 +158,7 @@
 			    color: inherit;
 			    margin-bottom: 0;
 			    padding: 15px 15px 8px;
-			    min-height: 24px;
+			    min-height: 42px;
 			    h5{
 		  	    display: inline-block;
 				    font-size: 14px;

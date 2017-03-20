@@ -87,10 +87,11 @@ class RoleService
 						'label' => $v['name']." ".$v['slug'],
 					];
 				}
-				dd(json_encode(array_values($permission)) );
+				// dd(json_encode(array_values($permission)) );
 				$responseData['results'] = array_values($permission);
 			}
 		} catch (Exception $e) {
+			dd($e);
 			$responseData['code'] = 2002;
 			$responseData['status'] = 500;
 			$responseData['message'] = 'error:create-获取所有权限失败';
