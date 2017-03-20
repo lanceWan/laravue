@@ -43,11 +43,6 @@
 	import { mapGetters } from 'vuex'
 	import { mapActions } from 'vuex'
 	export default {
-		data() {
-			return {
-				title:'hello'
-			}
-		},
 		computed: {
 			...mapGetters([
     		'loginStatus',

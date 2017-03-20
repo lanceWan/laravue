@@ -8,11 +8,11 @@ axios.defaults.headers.common = {
 // 添加响应拦截器
 axios.interceptors.response.use(function (response) {
 	// 对响应数据做点什么
-	if (response.status === 400 || response.status === 401) {
-		window.location = '/login';
-	}
 	return response;
 }, function (error) {
+    if (error.response.status == 401) {
+        window.location = '/login';
+    }
 	return Promise.reject(error);
 });
 

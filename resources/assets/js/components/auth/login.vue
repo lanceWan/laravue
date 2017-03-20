@@ -38,18 +38,18 @@
         checked: true
       };
     },
-    beforeRouteEnter (to, from, next) {
-      next((vm) => {
-        if(vm.loginStatus == '1') {
-          vm.$router.push('/admin')
-        }
-      })
-	  },
-	  computed: {
-			...mapGetters([
-	      'loginStatus'
-			])
-		},
+   //  beforeRouteEnter (to, from, next) {
+   //    next((vm) => {
+   //      if(vm.loginStatus == '1') {
+   //        vm.$router.push('/admin')
+   //      }
+   //    })
+	  // },
+	 //  computed: {
+		// 	...mapGetters([
+	 //      'loginStatus'
+		// 	])
+		// },
     methods: {
     	...mapActions([
       'setUserInfo',
@@ -66,7 +66,7 @@
               this.setUserInfo(response.user);
               this.setLoginStatus();
               this.setUserPermissions(response.permissions);
-              _this.$router.go('/')
+              _this.$router.push('/admin')
 	          });
           	this.loading = false;
           }
