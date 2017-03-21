@@ -45,15 +45,14 @@
    //      }
    //    })
 	  // },
-	 //  computed: {
-		// 	...mapGetters([
-	 //      'loginStatus'
-		// 	])
-		// },
+	  computed: {
+			...mapGetters([
+	      'loginStatus'
+			])
+		},
     methods: {
     	...mapActions([
       'setUserInfo',
-      'setLoginStatus',
       'setUserPermissions'
     	]),
    		submitForm(formName) {
@@ -63,10 +62,10 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
 	          api.Login(_form).then(response => {
-              this.setLoginStatus();
+              // console.log(response,this.loginStatus)
               this.setUserInfo(response.user);
               this.setUserPermissions(response.permissions);
-              _this.$router.push('/admin')
+              _this.$router.go('/admin')
 	          });
           	this.loading = false;
           }

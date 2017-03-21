@@ -14,7 +14,7 @@ const Bar1 = { template: '<div>控制台</div>' }
 const routes = [
 	{
   	path: '/',
-  	redirect: '/login'
+  	redirect: '/admin'
   },
 	{
   	path: '/admin',

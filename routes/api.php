@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth:api', 'permission']],function ($router)
 {
 	// 权限
-	$router->get('userPermission','PermissionController@getUserPermissions')->name('user.info');
+	// $router->get('userPermission','PermissionController@getUserPermissions')->name('user.info');
 	$router->resource('permission','PermissionController');
 	$router->resource('role','RoleController');
 });

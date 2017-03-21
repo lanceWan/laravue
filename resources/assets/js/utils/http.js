@@ -5,16 +5,6 @@ axios.defaults.headers.common = {
     'X-CSRF-TOKEN': window.Laravel.csrfToken,
     'X-Requested-With': 'XMLHttpRequest'
 };
-// 添加响应拦截器
-axios.interceptors.response.use(function (response) {
-	// 对响应数据做点什么
-	return response;
-}, function (error) {
-    if (error.response.status == 401) {
-        window.location = '/login';
-    }
-	return Promise.reject(error);
-});
 
 export function postFetch(url, params, method) {
     return new Promise((resolve, reject) => {
@@ -51,8 +41,11 @@ export function getFetch(url, params) {
                 for(var i in error.response.data){
                     message = error.response.data[i][0];
                 }
+                _.message(message,'error');
             }
-            _.message(message,'error');
+            if (error.response.status == 401) {
+                window.location = '/login';
+            }
             reject(message)
         });
     })

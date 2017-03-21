@@ -15,15 +15,13 @@ const actions = {
    * 用户登录
    */
   setUserInfo({ commit }, res) {
-    var userInfo = AES.encrypt(JSON.stringify(res), types.SECRET_KEY).toString();
-    localStorage.setItem('userInfo', userInfo)
-    commit(types.SET_USER_INFO, userInfo)
-  },
-
-  setLoginStatus({ commit }){
     var loginStatus = AES.encrypt('1', types.SECRET_KEY).toString()
     localStorage.setItem('loginStatus', loginStatus)
     commit(types.SET_LOGIN_STATUS, loginStatus)
+
+    var userInfo = AES.encrypt(JSON.stringify(res), types.SECRET_KEY).toString();
+    localStorage.setItem('userInfo', userInfo)
+    commit(types.SET_USER_INFO, userInfo)
   },
 
   /**

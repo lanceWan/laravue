@@ -75,23 +75,17 @@ class RoleService
 			'results' => [],
 		];
 		try {
-			$permissions = $this->permissionRepo->all();
+			$permissions = $this->permissionRepo->all(['id','name','slug']);
 			$permission = [];
 			if ($permissions) {
 				foreach ($permissions as $v) {
 					$arr = explode('.', $v['slug']);
 					$temp = [];
-					$permission[$arr[0]]['label'] = $arr[0];
-					$permission[$arr[0]]['childen'][] = [
-						'id' => $v['id'],
-						'label' => $v['name']." ".$v['slug'],
-					];
+					$permission[$arr[0]][] = $v;
 				}
-				// dd(json_encode(array_values($permission)) );
-				$responseData['results'] = array_values($permission);
+				$responseData['results'] = $permission;
 			}
 		} catch (Exception $e) {
-			dd($e);
 			$responseData['code'] = 2002;
 			$responseData['status'] = 500;
 			$responseData['message'] = 'error:create-获取所有权限失败';

@@ -17,8 +17,6 @@ export default {
     },
     create(){
       api.Create(this.apiUrl + 'create').then(response => {
-        console.log(response.results)
-        console.log(this.data2)
         this.data = response.results
       })
     }

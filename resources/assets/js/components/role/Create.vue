@@ -40,20 +40,13 @@
 							  <el-form-item label="描述" prop="description">
 							    <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="角色描述" v-model="ruleForm.description"></el-input>
 							  </el-form-item>
-							  <el-form-item label="角色权限" prop="description">
-							    <el-tree
-									  :data="data2"
-									  show-checkbox
-									  node-key="id"
-									  ref="tree"
-									  highlight-current
-									  :props="defaultProps">
-									</el-tree>
-									<el-tree
-									  :data="data"
-									  ref="tree"
-									  :props="defaultProps">
-									</el-tree>
+							  <el-form-item label="角色权限" prop="permissionIds">
+							    <template v-for="(item,key) in data">
+                    <el-checkbox class="module item" @change="handleCheckAllChange(item,$event)">模块({{key}})</el-checkbox>
+                    <el-checkbox-group class="item" v-model="ruleForm.permissionIds">
+                      <el-checkbox v-for="v in item" :key="v.id" :label="v.id">{{v.name}}</el-checkbox>
+                    </el-checkbox-group>
+                  </template>
 							  </el-form-item>
 							  <el-form-item>
 							    <el-button type="primary" :loading="loading" @click="submitForm('ruleForm')">立即创建</el-button>
@@ -69,7 +62,8 @@
 </template>
 <script>
 	import common from '../../mixins/common'
-	import create from '../../mixins/create'
+  import create from '../../mixins/create'
+	import * as _ from 'lodash'
   export default {
   	mixins: [create,common],
     data() {
@@ -81,55 +75,17 @@
           name: '',
           slug: '',
           description: '',
+          permissionIds: [],
         },
         rules: {
           name: [
             { required: true, message: '名称不能为空', trigger: 'blur' }
           ],
           slug: [
-            { required: true, message: '权限不能为空', trigger: 'blur' }
+            { required: true, message: '角色不能为空', trigger: 'blur' }
           ],
         },
-        data2: [{
-          // id: 1,
-          label: '一级 1',
-          children: [{
-            id: 4,
-            label: '二级 1-1',
-            children: [{
-              id: 9,
-              label: '三级 1-1-1'
-            }, {
-              id: 10,
-              label: '三级 1-1-2'
-            }]
-          }]
-        }, {
-          // id: 2,
-          label: '一级 2',
-          children: [{
-            id: 5,
-            label: '二级 2-1'
-          }, {
-            id: 6,
-            label: '二级 2-2'
-          }]
-        }, {
-          // id: 3,
-          label: '一级 3',
-          children: [{
-            id: 7,
-            label: '二级 3-1'
-          }, {
-            id: 8,
-            label: '二级 3-2'
-          }]
-        }],
-        data: [],
-        defaultProps: {
-          children: 'children',
-          label: 'label'
-        }
+        data:[],
       };
     },
     methods: {
@@ -144,6 +100,16 @@
       resetForm(formName) {
         this.$refs[formName].resetFields();
       },
+      handleCheckAllChange(item,event) {
+        var isChecked = event.target.checked;
+        var itemkValue = _.map(item,'id');
+        if (isChecked) {
+          var diff =  _.difference(itemkValue,this.ruleForm.permissionIds);
+          this.ruleForm.permissionIds = _.concat(this.ruleForm.permissionIds,diff)
+        }else{
+          this.ruleForm.permissionIds = _.difference(this.ruleForm.permissionIds,itemkValue);
+        }
+      }
     },
     created() {
     	this.create();
@@ -155,4 +121,11 @@
 		margin-bottom: 20px;
     text-align: center;
 	}
+  .module{
+    background-color: #eee;
+    width: 100%;
+  }
+  .item{
+    padding: 5px;
+  }
 </style>
