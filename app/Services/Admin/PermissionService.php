@@ -127,7 +127,7 @@ class PermissionService
 			'message' => 'ok',
 		];
 		try {
-			$responseData['permission'] = $this->permissionRepo->skipPresenter()->find($id,['id','name','slug','description']);
+			$responseData['results'] = $this->permissionRepo->skipPresenter()->find($id,['id','name','slug','description']);
 		} catch (Exception $e) {
 			$responseData['code'] = 1004;
 			$responseData['status'] = 500;

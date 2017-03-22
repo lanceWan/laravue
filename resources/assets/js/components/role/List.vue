@@ -71,10 +71,11 @@
 						    <el-table-column
 						      fixed="right"
 						      label="操作"
-						      width="120">
+						      width="150">
 						      <template scope="scope">
-					        	<el-button v-if="hasPermission('role.edit')" type="success" size="small" icon="edit" @click="handleEdit('role.edit',scope.row)"></el-button>
-					        	<el-button v-if="hasPermission('role.destroy')" type="danger" size="small" icon="delete" @click="handleDestroy(scope.row.id)"></el-button>
+					        	<el-button type="info" size="mini" icon="search" @click="dialogVisible = true"></el-button>
+					        	<el-button v-if="hasPermission('role.edit')" type="success" size="mini" icon="edit" @click="handleEdit('role.edit',scope.row)"></el-button>
+					        	<el-button v-if="hasPermission('role.destroy')" type="danger" size="mini" icon="delete" @click="handleDestroy(scope.row.id)"></el-button>
 						      </template>
 						    </el-table-column>
 						  </el-table>
@@ -96,6 +97,12 @@
 			  </div>
 			</div>
 		</el-col>
+		<el-dialog title="查看角色" v-model="dialogVisible">
+		  <span>这是一段信息</span>
+		  <span slot="footer" class="dialog-footer">
+		    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+		  </span>
+		</el-dialog>
 	</div>
 </template>
 <script>
@@ -106,6 +113,7 @@
       return {
       	apiUrl: '/api/admin/role',
       	redirectUrl: {name: 'role.index'},
+      	dialogVisible: false
       }
     },
     created() {

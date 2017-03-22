@@ -9,12 +9,12 @@ use Exception;
 use DB;
 class RoleService
 {
-	protected $RoleRepo;
+	protected $roleRepo;
 	protected $permissionRepo;
 
-	public function __construct(RoleRepositoryEloquent $RoleRepo, PermissionRepositoryEloquent $permissionRepo)
+	public function __construct(RoleRepositoryEloquent $roleRepo, PermissionRepositoryEloquent $permissionRepo)
 	{
-		$this->RoleRepo = $RoleRepo;
+		$this->roleRepo = $roleRepo;
 		$this->permissionRepo = $permissionRepo;
 	}
 
@@ -43,12 +43,12 @@ class RoleService
 			$start = ($page - 1) * $pageSize;
 
 			if ($search) {
-				$this->RoleRepo->pushCriteria(new SearchCriteria(['name','slug'],$search));
+				$this->roleRepo->pushCriteria(new SearchCriteria(['name','slug'],$search));
 			}
-			$total = $this->RoleRepo->skipPresenter()->all(['id'])->count();
+			$total = $this->roleRepo->skipPresenter()->all(['id'])->count();
 
-			$this->RoleRepo->pushCriteria(new PaginationCriteria($pageSize,$start));
-			$roles = $this->RoleRepo->orderBy($column,$order)->skipPresenter(false)->all();
+			$this->roleRepo->pushCriteria(new PaginationCriteria($pageSize,$start));
+			$roles = $this->roleRepo->orderBy($column,$order)->skipPresenter(false)->all();
 
 			$responseData['total'] = $total;
 			$responseData['results'] = $roles;
@@ -76,12 +76,11 @@ class RoleService
 			'results' => [],
 		];
 		try {
-			$permissions = $this->permissionRepo->all(['id','name','slug']);
+			$permissions = $this->permissionRepo->all(['id','name', 'slug']);
 			$permission = [];
-			if ($permissions) {
+			if (!$permissions->isEmpty()) {
 				foreach ($permissions as $v) {
 					$arr = explode('.', $v['slug']);
-					$temp = [];
 					$permission[$arr[0]][] = $v;
 				}
 				$responseData['results'] = $permission;
@@ -110,7 +109,7 @@ class RoleService
 		];
 		try {
 			DB::transaction(function () use ($attributes) {
-				$role = $this->RoleRepo->create($attributes);
+				$role = $this->roleRepo->create($attributes);
 				if ($attributes['permissionIds']) {
 					$role->syncPermissions($attributes['permissionIds']);
 				}
@@ -125,87 +124,105 @@ class RoleService
 	}
 
 	/**
-	 * 权限数据
+	 * 修改角色页面数据
 	 * @author 晚黎
-	 * @date   2017-03-15T13:19:32+0800
+	 * @date   2017-03-22T16:48:00+0800
 	 * @param  [type]                   $id [description]
 	 * @return [type]                       [description]
 	 */
-	// public function edit($id)
-	// {
-	// 	$responseData = [
-	// 		'code' => 0,
-	// 		'status' => 200,
-	// 		'message' => 'ok',
-	// 	];
-	// 	try {
-	// 		$responseData['permission'] = $this->permissionRepo->skipPresenter()->find($id,['id','name','slug','description']);
-	// 	} catch (Exception $e) {
-	// 		$responseData['code'] = 1004;
-	// 		$responseData['status'] = 500;
-	// 		$responseData['message'] = 'error:edit-获取权限数据失败';
-	// 	}
-	// 	return $responseData;
-	// }
+	public function edit($id)
+	{
+		$responseData = [
+			'code' => 0,
+			'status' => 200,
+			'message' => 'ok',
+		];
+		try {
+			$role = $this->roleRepo->with('permissions')->find($id,['id','name','slug','description'])->toArray();
+			$role['permissionIds'] = [];
+
+			if ($role['permissions']) {
+				$role['permissionIds'] = array_column($role['permissions'], 'id');
+
+				$permissions = $this->permissionRepo->all(['id','name', 'slug']);
+				$permission = [];
+				if (!$permissions->isEmpty()) {
+					foreach ($permissions as $v) {
+						$arr = explode('.', $v->slug);
+						$permission[$arr[0]][] = $v;
+					}
+				}
+				$role['permissions'] = $permission;
+			}
+			$responseData['results'] = $role;
+		} catch (Exception $e) {
+			$responseData['code'] = 2004;
+			$responseData['status'] = 500;
+			$responseData['message'] = 'error:edit-获取角色数据失败';
+		}
+		return $responseData;
+	}
 
 	/**
-	 * 修改权限数据
+	 * 修改角色数据
 	 * @author 晚黎
-	 * @date   2017-03-16T10:36:52+0800
+	 * @date   2017-03-22T17:23:53+0800
 	 * @param  [type]                   $attributes [description]
 	 * @param  [type]                   $id         [description]
 	 * @return [type]                               [description]
 	 */
-	// public function update($attributes,$id)
-	// {
-	// 	$responseData = [
-	// 		'code' => 0,
-	// 		'status' => 200,
-	// 		'message' => 'ok',
-	// 	];
-	// 	try {
-	// 		$isUpdate = $this->permissionRepo->update($attributes,$id);
-	// 		if ($isUpdate) {
-	// 			$responseData['message'] = '修改权限成功';
-	// 		}
-	// 	} catch (Exception $e) {
-	// 		$responseData['code'] = 1005;
-	// 		$responseData['status'] = 500;
-	// 		$responseData['message'] = 'error:update-修改权限数据失败';
-	// 	}
-	// 	return $responseData;
-	// }
+	public function update($attributes,$id)
+	{
+		$responseData = [
+			'code' => 0,
+			'status' => 200,
+			'message' => 'ok',
+		];
+		try {
+			DB::transaction(function () use ($attributes, $id){
+				$role = $this->roleRepo->update($attributes,$id);
+				$role->syncPermissions($attributes['permissionIds']);
+			});
+			$responseData['message'] = '修改权限成功';
+		} catch (Exception $e) {
+			$responseData['code'] = 2005;
+			$responseData['status'] = 500;
+			$responseData['message'] = 'error:update-修改角色数据失败';
+		}
+		return $responseData;
+	}
+	
 	/**
 	 * 删除数据
 	 * @author 晚黎
-	 * @date   2017-03-16T10:59:17+0800
+	 * @date   2017-03-22T17:36:05+0800
 	 * @param  [type]                   $id [description]
 	 * @return [type]                       [description]
 	 */
-	// public function destroy($id)
-	// {
-	// 	$responseData = [
-	// 		'code' => 0,
-	// 		'status' => 200,
-	// 		'message' => 'ok',
-	// 	];
-	// 	try {
-	// 		$multiple = request('multiple', false);
-	// 		// 批量删除
-	// 		if ($multiple) {
-	// 			$isDestroy = $this->permissionRepo->multipleDestroy(explode(',', $id));
-	// 		}else{
-	// 			$isDestroy = $this->permissionRepo->delete($id);
-	// 		}
-	// 		if ($isDestroy) {
-	// 			$responseData['message'] = '删除权限成功';
-	// 		}
-	// 	} catch (Exception $e) {
-	// 		dd($e);
-	// 		$responseData['code'] = 1006;
-	// 		$responseData['status'] = 500;
-	// 		$responseData['message'] = 'error:destroy-删除权限数据失败';
-	// 	}
-	// 	return $responseData;
-	// }
+	public function destroy($id)
+	{
+		$responseData = [
+			'code' => 0,
+			'status' => 200,
+			'message' => 'ok',
+		];
+		try {
+			$multiple = request('multiple', false);
+			// 批量删除
+			if ($multiple) {
+				$isDestroy = $this->roleRepo->multipleDestroy(explode(',', $id));
+			}else{
+				$isDestroy = $this->roleRepo->delete($id);
+			}
+			if ($isDestroy) {
+				$responseData['message'] = '删除角色成功';
+			}
+		} catch (Exception $e) {
+			dd($e);
+			$responseData['code'] = 2006;
+			$responseData['status'] = 500;
+			$responseData['message'] = 'error:destroy-删除角色数据失败';
+		}
+		return $responseData;
+	}
 }

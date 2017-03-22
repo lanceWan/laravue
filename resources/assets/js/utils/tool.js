@@ -35,7 +35,7 @@ export function confirm(message,title = '提示',type = 'info',confirmButton = '
         }).then(() => {
           resolve();
         }).catch(() => {
-          reject();
+          
         }); 
     })
 }

@@ -73,8 +73,8 @@
 						      label="操作"
 						      width="120">
 						      <template scope="scope">
-					        	<el-button v-if="hasPermission('permission.edit')" type="success" size="small" icon="edit" @click="handleEdit('permission.edit',scope.row)"></el-button>
-					        	<el-button v-if="hasPermission('permission.destroy')" type="danger" size="small" icon="delete" @click="handleDestroy(scope.row.id)"></el-button>
+					        	<el-button v-if="hasPermission('permission.edit')" type="success" size="mini" icon="edit" @click="handleEdit('permission.edit',scope.row)"></el-button>
+					        	<el-button v-if="hasPermission('permission.destroy')" type="danger" size="mini" icon="delete" @click="handleDestroy(scope.row.id)"></el-button>
 						      </template>
 						    </el-table-column>
 						  </el-table>

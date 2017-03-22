@@ -13095,9 +13095,7 @@ function confirm(message) {
       type: type
     }).then(function () {
       resolve();
-    }).catch(function () {
-      reject();
-    });
+    }).catch(function () {});
   });
 }
 
@@ -70007,14 +70005,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "fixed": "right",
       "label": "操作",
-      "width": "120"
+      "width": "150"
     },
     scopedSlots: _vm._u([
       ["default", function(scope) {
-        return [(_vm.hasPermission('role.edit')) ? _c('el-button', {
+        return [_c('el-button', {
+          attrs: {
+            "type": "info",
+            "size": "mini",
+            "icon": "search"
+          },
+          on: {
+            "click": function($event) {
+              _vm.dialogVisible = true
+            }
+          }
+        }), _vm._v(" "), (_vm.hasPermission('role.edit')) ? _c('el-button', {
           attrs: {
             "type": "success",
-            "size": "small",
+            "size": "mini",
             "icon": "edit"
           },
           on: {
@@ -70025,7 +70034,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }) : _vm._e(), _vm._v(" "), (_vm.hasPermission('role.destroy')) ? _c('el-button', {
           attrs: {
             "type": "danger",
-            "size": "small",
+            "size": "mini",
             "icon": "delete"
           },
           on: {
@@ -70057,7 +70066,29 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "size-change": _vm.handleSizeChange,
       "current-change": _vm.handleCurrentChange
     }
-  })], 1)], 1)], 1)])])], 1)
+  })], 1)], 1)], 1)])]), _vm._v(" "), _c('el-dialog', {
+    attrs: {
+      "title": "查看角色"
+    },
+    model: {
+      value: (_vm.dialogVisible),
+      callback: function($$v) {
+        _vm.dialogVisible = $$v
+      }
+    }
+  }, [_c('span', [_vm._v("这是一段信息")]), _vm._v(" "), _c('span', {
+    staticClass: "dialog-footer",
+    slot: "footer"
+  }, [_c('el-button', {
+    attrs: {
+      "type": "primary"
+    },
+    on: {
+      "click": function($event) {
+        _vm.dialogVisible = false
+      }
+    }
+  }, [_vm._v("确 定")])], 1)])], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -70459,7 +70490,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         return [(_vm.hasPermission('permission.edit')) ? _c('el-button', {
           attrs: {
             "type": "success",
-            "size": "small",
+            "size": "mini",
             "icon": "edit"
           },
           on: {
@@ -70470,7 +70501,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }) : _vm._e(), _vm._v(" "), (_vm.hasPermission('permission.destroy')) ? _c('el-button', {
           attrs: {
             "type": "danger",
-            "size": "small",
+            "size": "mini",
             "icon": "delete"
           },
           on: {
@@ -77232,7 +77263,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         name: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
         slug: [{ required: true, message: '权限不能为空', trigger: 'blur' }]
       },
-      apiUrl: '/api/admin/permission/' + this.$route.params.id
+      apiUrl: '/api/admin/permission/' + this.$route.params.id,
+      redirectUrl: { name: 'permission.index' }
     };
   },
 
@@ -77243,7 +77275,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this = this;
       this.$refs[formName].validate(function (valid) {
         if (valid) {
-          _this2.edit({ name: 'permission.index' });
+          _this2.edit();
         }
       });
     },
@@ -77611,6 +77643,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = {
@@ -77618,7 +77657,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   data: function data() {
     return {
       apiUrl: '/api/admin/role',
-      redirectUrl: { name: 'role.index' }
+      redirectUrl: { name: 'role.index' },
+      dialogVisible: false
     };
   },
   created: function created() {
@@ -77643,13 +77683,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   methods: {
-    edit: function edit(redirectUrl) {
+    edit: function edit() {
       var _this = this;
 
       this.loading = true;
       __WEBPACK_IMPORTED_MODULE_0__utils_http__["a" /* default */].Update(this.apiUrl, this.ruleForm).then(function (response) {
         __WEBPACK_IMPORTED_MODULE_1__utils_tool__["b" /* notification_success */](response.message);
-        _this.$router.push(redirectUrl);
+        _this.$router.push(_this.redirectUrl);
       });
       this.loading = false;
     },
@@ -77657,7 +77697,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this2 = this;
 
       __WEBPACK_IMPORTED_MODULE_0__utils_http__["a" /* default */].Edit('/api' + this.$route.path).then(function (response) {
-        _this2.ruleForm = response.permission;
+        _this2.ruleForm = response.results;
       }).catch(function (error) {
         _.notification_error(error.response.data.message);
         _this2.$router.go(-1);
@@ -77689,6 +77729,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_role_List___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_role_List__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_role_Create__ = __webpack_require__(130);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_role_Create___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_role_Create__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_role_Edit__ = __webpack_require__(192);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_role_Edit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__components_role_Edit__);
 
 
 
@@ -77698,6 +77740,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 // 角色
+
 
 
 var Bar = { template: '<div>没有找到路由</div>' };
@@ -77753,6 +77796,13 @@ var routes = [{
       title: '创建角色'
     },
     name: 'role.create'
+  }, {
+    path: 'role/:id/edit',
+    component: __WEBPACK_IMPORTED_MODULE_9__components_role_Edit___default.a,
+    meta: {
+      title: '修改角色'
+    },
+    name: 'role.edit'
   }, {
     path: 'error',
     component: __WEBPACK_IMPORTED_MODULE_1__components_error_Permission___default.a
@@ -77918,6 +77968,426 @@ var GET_USER_PERMISSIONS = 'GET_USER_PERMISSIONS'; //获取用户权限
 
 module.exports = __webpack_require__(52);
 
+
+/***/ }),
+/* 191 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(7)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.ibox-tools{\n\t\tmargin-bottom: 20px;\n    text-align: center;\n}\n.module{\n    background-color: #eee;\n    width: 100%;\n}\n.item{\n    padding: 5px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 192 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(194)
+
+var Component = __webpack_require__(6)(
+  /* script */
+  __webpack_require__(195),
+  /* template */
+  __webpack_require__(193),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\phpStudy\\WWW\\laravue\\resources\\assets\\js\\components\\role\\Edit.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Edit.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-658f64e9", Component.options)
+  } else {
+    hotAPI.reload("data-v-658f64e9", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 193 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "grid-content bg-purple-light"
+  }, [_c('el-row', {
+    staticClass: "header"
+  }, [_c('el-col', {
+    staticClass: "breadcrumb-container",
+    attrs: {
+      "span": 8
+    }
+  }, [_c('h3', {
+    staticClass: "title"
+  }, [_vm._v(_vm._s(_vm.$route.meta.title))]), _vm._v(" "), _c('el-breadcrumb', {
+    staticClass: "breadcrumb-inner",
+    attrs: {
+      "separator": "/"
+    }
+  }, _vm._l((_vm.$route.matched), function(item) {
+    return _c('el-breadcrumb-item', {
+      key: item.path,
+      attrs: {
+        "to": {
+          path: item.path
+        }
+      }
+    }, [_vm._v("\n\t\t\t\t\t\t" + _vm._s(item.meta.title) + "\n\t\t\t\t\t")])
+  }))], 1), _vm._v(" "), _c('el-col', {
+    staticClass: "title-action",
+    attrs: {
+      "span": 16
+    }
+  }, [_c('el-button', {
+    attrs: {
+      "icon": "arrow-left"
+    },
+    on: {
+      "click": function($event) {
+        _vm.$router.go(-1)
+      }
+    }
+  }, [_vm._v("返回")])], 1)], 1), _vm._v(" "), _c('el-col', {
+    staticClass: "content-wrapper",
+    attrs: {
+      "span": 24
+    }
+  }, [_c('div', {
+    staticClass: "ibox"
+  }, [_c('div', {
+    staticClass: "ibox-title"
+  }, [_c('h5', [_vm._v(_vm._s(_vm.$route.meta.title))])]), _vm._v(" "), _c('div', {
+    staticClass: "ibox-content"
+  }, [_c('el-row', {
+    attrs: {
+      "type": "flex",
+      "justify": "center"
+    }
+  }, [_c('el-col', {
+    staticClass: "ibox-tools",
+    attrs: {
+      "span": 6
+    }
+  }, [_c('el-radio-group', {
+    staticClass: "labelPosition",
+    attrs: {
+      "size": "small"
+    },
+    model: {
+      value: (_vm.labelPosition),
+      callback: function($$v) {
+        _vm.labelPosition = $$v
+      }
+    }
+  }, [_c('el-radio-button', {
+    attrs: {
+      "label": "left"
+    }
+  }, [_vm._v("左对齐")]), _vm._v(" "), _c('el-radio-button', {
+    attrs: {
+      "label": "right"
+    }
+  }, [_vm._v("右对齐")]), _vm._v(" "), _c('el-radio-button', {
+    attrs: {
+      "label": "top"
+    }
+  }, [_vm._v("顶部对齐")])], 1)], 1)], 1), _vm._v(" "), _c('el-row', {
+    attrs: {
+      "type": "flex",
+      "justify": "center"
+    }
+  }, [_c('el-col', {
+    attrs: {
+      "span": 20
+    }
+  }, [_c('el-form', {
+    ref: "ruleForm",
+    staticClass: "demo-ruleForm",
+    attrs: {
+      "model": _vm.ruleForm,
+      "label-position": _vm.labelPosition,
+      "label-width": "13%",
+      "rules": _vm.rules
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "名称",
+      "prop": "name"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "placeholder": "名称"
+    },
+    model: {
+      value: (_vm.ruleForm.name),
+      callback: function($$v) {
+        _vm.ruleForm.name = $$v
+      }
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "角色",
+      "prop": "slug"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "placeholder": "角色"
+    },
+    model: {
+      value: (_vm.ruleForm.slug),
+      callback: function($$v) {
+        _vm.ruleForm.slug = $$v
+      }
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "描述",
+      "prop": "description"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "type": "textarea",
+      "autosize": {
+        minRows: 2,
+        maxRows: 4
+      },
+      "placeholder": "角色描述"
+    },
+    model: {
+      value: (_vm.ruleForm.description),
+      callback: function($$v) {
+        _vm.ruleForm.description = $$v
+      }
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "角色权限",
+      "prop": "permissionIds"
+    }
+  }, [_vm._l((_vm.ruleForm.permissions), function(item, key) {
+    return [_c('el-checkbox', {
+      staticClass: "module item",
+      on: {
+        "change": function($event) {
+          _vm.handleCheckAllChange(item, $event)
+        }
+      }
+    }, [_vm._v("模块(" + _vm._s(key) + ")")]), _vm._v(" "), _c('el-checkbox-group', {
+      staticClass: "item",
+      model: {
+        value: (_vm.ruleForm.permissionIds),
+        callback: function($$v) {
+          _vm.ruleForm.permissionIds = $$v
+        }
+      }
+    }, _vm._l((item), function(v) {
+      return _c('el-checkbox', {
+        key: v.id,
+        attrs: {
+          "label": v.id
+        }
+      }, [_vm._v(_vm._s(v.name))])
+    }))]
+  })], 2), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    attrs: {
+      "type": "primary",
+      "loading": _vm.loading
+    },
+    on: {
+      "click": function($event) {
+        _vm.submitForm('ruleForm')
+      }
+    }
+  }, [_vm._v("保存")]), _vm._v(" "), _c('el-button', {
+    on: {
+      "click": function($event) {
+        _vm.resetForm('ruleForm')
+      }
+    }
+  }, [_vm._v("重置")])], 1)], 1)], 1)], 1)], 1)])])], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-658f64e9", module.exports)
+  }
+}
+
+/***/ }),
+/* 194 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(191);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(8)("04937108", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/.0.26.2@css-loader/index.js!../../../../../node_modules/.11.1.4@vue-loader/lib/style-rewriter.js?{\"id\":\"data-v-658f64e9\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/.11.1.4@vue-loader/lib/selector.js?type=styles&index=0!./Edit.vue", function() {
+     var newContent = require("!!../../../../../node_modules/.0.26.2@css-loader/index.js!../../../../../node_modules/.11.1.4@vue-loader/lib/style-rewriter.js?{\"id\":\"data-v-658f64e9\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/.11.1.4@vue-loader/lib/selector.js?type=styles&index=0!./Edit.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 195 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_common__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_edit__ = __webpack_require__(185);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_lodash__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+  mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_common__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_edit__["a" /* default */]],
+  data: function data() {
+    var _ref;
+
+    return _ref = {
+      labelPosition: 'right',
+      apiUrl: '/api/admin/role/',
+      redirectUrl: { name: 'role.index' },
+      ruleForm: {
+        id: '',
+        name: '',
+        slug: '',
+        description: '',
+        permissionIds: [],
+        permissions: []
+      },
+      rules: {
+        name: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
+        slug: [{ required: true, message: '角色不能为空', trigger: 'blur' }]
+      }
+    }, _defineProperty(_ref, 'apiUrl', '/api/admin/role/' + this.$route.params.id), _defineProperty(_ref, 'redirectUrl', { name: 'role.index' }), _ref;
+  },
+
+  methods: {
+    submitForm: function submitForm(formName) {
+      var _this = this;
+
+      this.$refs[formName].validate(function (valid) {
+        if (valid) {
+          _this.edit('/api/admin/role', _this.ruleForm);
+        }
+      });
+    },
+    resetForm: function resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
+    handleCheckAllChange: function handleCheckAllChange(item, event) {
+      var isChecked = event.target.checked;
+      var itemkValue = __WEBPACK_IMPORTED_MODULE_2_lodash__["map"](item, 'id');
+      if (isChecked) {
+        var diff = __WEBPACK_IMPORTED_MODULE_2_lodash__["difference"](itemkValue, this.ruleForm.permissionIds);
+        this.ruleForm.permissionIds = __WEBPACK_IMPORTED_MODULE_2_lodash__["concat"](this.ruleForm.permissionIds, diff);
+      } else {
+        this.ruleForm.permissionIds = __WEBPACK_IMPORTED_MODULE_2_lodash__["difference"](this.ruleForm.permissionIds, itemkValue);
+      }
+    }
+  },
+  created: function created() {
+    this.getEidtData();
+  }
+};
 
 /***/ })
 /******/ ]);

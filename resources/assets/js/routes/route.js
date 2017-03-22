@@ -9,6 +9,7 @@ import PermissionEdit from '../components/permission/Edit'
 // 角色
 import RoleList from '../components/role/List'
 import RoleCreate from '../components/role/Create'
+import RoleEdit from '../components/role/Edit'
 const Bar = { template: '<div>没有找到路由</div>' }
 const Bar1 = { template: '<div>控制台</div>' }
 const routes = [
@@ -70,6 +71,14 @@ const routes = [
           title: '创建角色'
         },
         name: 'role.create'
+      },
+      {
+        path: 'role/:id/edit',
+        component: RoleEdit,
+        meta: {
+          title: '修改角色'
+        },
+        name: 'role.edit'
       },
       {
         path: 'error',

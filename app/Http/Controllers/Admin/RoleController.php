@@ -57,7 +57,8 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        
+        $responseData = $this->service->show($id);
+        return response()->json($responseData,$responseData['status']);
     }
 
 
@@ -70,8 +71,8 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-
-        
+        $responseData = $this->service->edit($id);
+        return response()->json($responseData,$responseData['status']);
     }
 
 
@@ -85,8 +86,8 @@ class RoleController extends Controller
      */
     public function update(RoleUpdateRequest $request, $id)
     {
-
-        
+        $responseData = $this->service->update($request->all(),$id);
+        return response()->json($responseData,$responseData['status']);
     }
 
 
@@ -99,6 +100,7 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        
+        $responseData = $this->service->destroy($id);
+        return response()->json($responseData,$responseData['status']);
     }
 }

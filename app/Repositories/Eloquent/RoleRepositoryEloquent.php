@@ -33,4 +33,9 @@ class RoleRepositoryEloquent extends BaseRepository implements RoleRepository
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
+
+    public function multipleDestroy($ids)
+    {
+        return $this->model->destroy($ids);
+    }
 }
