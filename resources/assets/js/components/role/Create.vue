@@ -70,7 +70,7 @@
       return {
         labelPosition: 'right',
         apiUrl: '/api/admin/role/',
-        redirectUrl: {name: 'route.index'},
+        redirectUrl: {name: 'role.index'},
         ruleForm: {
           name: '',
           slug: '',
@@ -90,10 +90,9 @@
     },
     methods: {
       submitForm(formName) {
-      	var _this = this;
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            _this.store('/api/admin/role',_this.ruleForm);
+            this.store('/api/admin/role',this.ruleForm);
           }
         });
       },

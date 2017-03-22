@@ -43,8 +43,8 @@ class RoleController extends Controller
      */
     public function store(RoleCreateRequest $request)
     {
-
-        
+        $responseData = $this->service->store($request->all());
+        return response()->json($responseData,$responseData['status']);
     }
 
 

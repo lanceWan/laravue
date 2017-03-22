@@ -13,7 +13,7 @@ class RoleCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,24 @@ class RoleCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required',
+            'slug' => 'required|unique:roles,slug',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required'  => ':attribute 不能为空。',
+            'unique'  => ':attribute 已经存在。',
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'name'  => '名称',
+            'slug'  => '角色',
         ];
     }
 }

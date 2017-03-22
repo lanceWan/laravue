@@ -6,6 +6,7 @@ use App\Repositories\Criteria\SearchCriteria;
 use App\Repositories\Criteria\OrderByCriteria;
 use App\Repositories\Criteria\PaginationCriteria;
 use Exception;
+use DB;
 class RoleService
 {
 	protected $RoleRepo;
@@ -94,31 +95,34 @@ class RoleService
 	}
 
 	/**
-	 * 添加权限
+	 * 添加角色
 	 * @author 晚黎
-	 * @date   2017-03-14T15:42:05+0800
+	 * @date   2017-03-22T09:55:12+0800
 	 * @param  [type]                   $attributes [description]
 	 * @return [type]                               [description]
 	 */
-	// public function store($attributes)
-	// {
-	// 	$responseData = [
-	// 		'code' => 0,
-	// 		'status' => 200,
-	// 		'message' => 'ok',
-	// 	];
-	// 	try {
-	// 		$permission = $this->permissionRepo->create($attributes);
-	// 		if ($permission) {
-	// 			$responseData['message'] = '创建权限成功';
-	// 		}
-	// 	} catch (Exception $e) {
-	// 		$responseData['code'] = 1003;
-	// 		$responseData['status'] = 500;
-	// 		$responseData['message'] = 'error:store-添加权限失败';
-	// 	}
-	// 	return $responseData;
-	// }
+	public function store($attributes)
+	{
+		$responseData = [
+			'code' => 0,
+			'status' => 200,
+			'message' => 'ok',
+		];
+		try {
+			DB::transaction(function () use ($attributes) {
+				$role = $this->RoleRepo->create($attributes);
+				if ($attributes['permissionIds']) {
+					$role->syncPermissions($attributes['permissionIds']);
+				}
+			});
+			$responseData['message'] = '创建权限成功';
+		} catch (Exception $e) {
+			$responseData['code'] = 2003;
+			$responseData['status'] = 500;
+			$responseData['message'] = 'error:store-添加角色失败';
+		}
+		return $responseData;
+	}
 
 	/**
 	 * 权限数据
