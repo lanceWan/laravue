@@ -218,10 +218,42 @@ class RoleService
 				$responseData['message'] = '删除角色成功';
 			}
 		} catch (Exception $e) {
-			dd($e);
 			$responseData['code'] = 2006;
 			$responseData['status'] = 500;
 			$responseData['message'] = 'error:destroy-删除角色数据失败';
+		}
+		return $responseData;
+	}
+
+	/**
+	 * 查看角色信息
+	 * @author 晚黎
+	 * @date   2017-03-23T11:56:02+0800
+	 * @param  [type]                   $id [description]
+	 * @return [type]                       [description]
+	 */
+	public function show($id)
+	{
+		$responseData = [
+			'code' => 0,
+			'status' => 200,
+			'message' => 'ok',
+		];
+		try {
+			$role = $this->roleRepo->with('permissions')->find($id,['id','name','slug','description'])->toArray();
+			if ($role['permissions']) {
+				$permission = [];
+				foreach ($role['permissions'] as $v) {
+					$arr = explode('.', $v['slug']);
+					$permission[$arr[0]][] = $v;
+				}
+				$role['permissions'] = $permission;
+			}
+			$responseData['results'] = $role;
+		} catch (Exception $e) {
+			$responseData['code'] = 2007;
+			$responseData['status'] = 500;
+			$responseData['message'] = 'error:show-查询角色数据失败';
 		}
 		return $responseData;
 	}
