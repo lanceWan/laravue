@@ -82,6 +82,9 @@ export default {
     },
     Destroy(url,params){
         return postFetch(url, params, 'DELETE');
+    },
+    Show(url,params){
+        return getFetch(url, params);
     }
     
 }

@@ -73,7 +73,7 @@
 						      label="操作"
 						      width="150">
 						      <template scope="scope">
-					        	<el-button type="info" size="mini" icon="search" @click="dialogVisible = true"></el-button>
+					        	<el-button type="info" size="mini" icon="search" @click="handleShow(scope.row.id)"></el-button>
 					        	<el-button v-if="hasPermission('role.edit')" type="success" size="mini" icon="edit" @click="handleEdit('role.edit',scope.row)"></el-button>
 					        	<el-button v-if="hasPermission('role.destroy')" type="danger" size="mini" icon="delete" @click="handleDestroy(scope.row.id)"></el-button>
 						      </template>
@@ -98,7 +98,27 @@
 			</div>
 		</el-col>
 		<el-dialog title="查看角色" v-model="dialogVisible">
-		  <span>这是一段信息</span>
+		  <el-row type="flex" justify="center">
+	  		<el-col :span="20">
+			  	<el-form label-width="13%">
+					  <el-form-item label="名称">
+					    <el-input v-model="showData.name" placeholder="名称" :disabled="true"></el-input>
+					  </el-form-item>
+					  <el-form-item label="角色">
+					    <el-input v-model="showData.slug" placeholder="角色" :disabled="true"></el-input>
+					  </el-form-item>
+					  <el-form-item label="描述">
+					    <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" :disabled="true" placeholder="角色描述" v-model="showData.description"></el-input>
+					  </el-form-item>
+					  <el-form-item label="角色权限">
+					    <template v-for="(item,key) in showData.permissions">
+					    	<el-tag type="primary" class="tags-module">模块: {{key}}</el-tag>
+					    	<el-tag type="success" class="tags" v-for="v in item" :key="v.id">{{v.name}}</el-tag>
+              </template>
+					  </el-form-item>
+					</el-form>
+	  		</el-col>
+	  	</el-row>
 		  <span slot="footer" class="dialog-footer">
 		    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
 		  </span>
@@ -113,7 +133,8 @@
       return {
       	apiUrl: '/api/admin/role',
       	redirectUrl: {name: 'role.index'},
-      	dialogVisible: false
+      	dialogVisible: false,
+      	showData: {}
       }
     },
     created() {
@@ -194,6 +215,12 @@
 		      }
 		    }
 			}
+		}
+		.tags-module{
+			display:block;
+		}
+		.tags{
+			margin-right:5px;
 		}
 	}
 </style>

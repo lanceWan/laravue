@@ -108,6 +108,14 @@ export default {
           this.dataList();
         });
       });
+    },
+    handleShow(id){
+      this.dialogVisible = true;
+      api.Show(this.apiUrl+'/'+id).then(response => {
+        this.showData = response.results
+      }).catch(error => {
+        tool.message(error.getMessage)
+      })
     }
   }
 }
