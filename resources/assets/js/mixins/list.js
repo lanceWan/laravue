@@ -1,8 +1,7 @@
 import * as _ from 'lodash'
 import api from '../utils/http'
 import * as tool from '../utils/tool'
-import { mapGetters } from 'vuex'
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
 	data() {
     return {

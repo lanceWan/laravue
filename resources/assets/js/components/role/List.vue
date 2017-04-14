@@ -16,7 +16,7 @@
 		<el-col :span="24" class="content-wrapper">
 			<div class="ibox">
 			  <div class="ibox-title">
-			    <h5>权限列表</h5>
+			    <h5>角色列表</h5>
 			  </div>
 			  <div class="ibox-content">
 			  	<el-row class="header-tool" :gutter="10">
